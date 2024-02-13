@@ -1,5 +1,4 @@
 import { Col, Container, Row } from "react-bootstrap"
-import HomeComp from "./HomeComponent"
 import NavBarComp from "./NavBarComponent"
 
 function WelcomeComp(){

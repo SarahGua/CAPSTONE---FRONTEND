@@ -1,20 +1,29 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link } from 'react-router-dom';
 
 function NavBarComp(){
     return (
-        <>
+        <Container className='my-5'>
             <Navbar bg="dark" data-bs-theme="dark" className='bg-darkBlue'>
-                <Container>
-                <Nav className="me-auto d-flex w-100 justify-content-center">
-                    <Nav.Link href="#home" className='text-light'>Exhibitor List</Nav.Link>
-                    <Nav.Link href="#features" className='text-light'>Agenda</Nav.Link>
-                    <Nav.Link href="#pricing" className='text-light'>Whish List</Nav.Link>
-                </Nav>
-                </Container>
+                {/* <Container className='d-flex justify-content-center'> */}
+                    <Nav className="d-flex justify-content-evenly w-100">
+                        {/* <Row className='w-100'>
+                            <Col className=''> */}
+                                <Link href="#exhibitorList" className='text-light text-decoration-none' to="/list">Exhibitor List</Link>
+                            {/* </Col>
+                            <Col className=''> */}
+                                <Link href="#agenda" className='text-light text-decoration-none' to="/agenda">Agenda</Link>
+                            {/* </Col>
+                            <Col className=''> */}
+                                <Link href="#wishList" className='text-light text-decoration-none' to="/wish">Whish List</Link>
+                            {/* </Col>
+                        </Row> */}
+                    </Nav>
+                {/* </Container> */}
             </Navbar>
-        </>
+        </Container>
     )
 }
 
