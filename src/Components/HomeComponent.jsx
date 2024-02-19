@@ -14,7 +14,45 @@ function HomeComp(){
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-  
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value)
+    }
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    }
+
+    const handleLogin = (email, password) => {
+        fetch("http://localhost:3001/auth/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+        .then(res => {
+            if(res.ok){
+                return res.json()
+            } else {
+                throw new Error ('errore nelle credeziali')
+            }
+        })
+        .then(data => {
+            console.log(data)
+            const userId = data.id  
+            const token = data.token 
+            localStorage.setItem('userId', userId)
+            localStorage.setItem('token', token)
+        })
+        .catch(error => {
+            throw new Error('errore nel recupero delle credenziali')
+        })
+    }
+
     return (
         <Container className='vh-100 d-flex flex-column justify-content-sm-evenly'>
             <Row>
@@ -51,6 +89,8 @@ function HomeComp(){
                                     type="email"
                                     placeholder="name@example.com"
                                     autoFocus
+                                    value={email}
+                                    onChange={handleEmailChange}
                                 />
                                 </Form.Group>
                                 <Form.Group
@@ -58,7 +98,13 @@ function HomeComp(){
                                 controlId="exampleForm.ControlTextarea1"
                                 >
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type='password' placeholder='*********' autoFocus />
+                                <Form.Control 
+                                type='password' 
+                                placeholder='*********' 
+                                autoFocus 
+                                value={password}
+                                onChange={handlePasswordChange}
+                                />
                             </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -68,8 +114,10 @@ function HomeComp(){
                             Register
                         </Button>
                     </Link>
-                    <Link to="/welcome">
-                    <Button variant="primary" onClick={handleClose} className='bg-darkBlue border border-0'>
+                    <Link 
+                    to="/welcome"
+                    >
+                    <Button variant="primary" onClick={() => handleLogin(email, password)} className='bg-darkBlue border border-0'>
                         Login
                     </Button>
                     </Link>
