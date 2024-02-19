@@ -121,7 +121,7 @@ function ExhibitorListComp(){
                                 <Card.Body className="d-flex justify-content-between">
                                     <Container className="d-flex justify-content-start align-items-center">
 
-                                    <Card.Title className="m-0">{user.name}</Card.Title>
+                                    <Card.Title className="m-0">{user.company_name}</Card.Title>
                                     </Container>
                                     <Container className="d-flex justify-content-end align-items-center">
                                         <Link to="/profile" className=" text-decoration-none">
@@ -151,7 +151,7 @@ function ExhibitorListComp(){
                                         <Card.Body className="d-flex justify-content-between">
                                             <Container className="d-flex justify-content-start align-items-center">
         
-                                            <Card.Title className="m-0">{user.name}</Card.Title>
+                                            <Card.Title className="m-0">{user.company_name}</Card.Title>
                                             </Container>
                                             <Container className="d-flex justify-content-end align-items-center">
                                                 <Link to="/profile" className=" text-decoration-none">
@@ -182,7 +182,7 @@ function ExhibitorListComp(){
                                         <Card.Img variant="top" src="https://brasaperuvian.com/cdn/shop/articles/iStock-468588494_2000x.jpg?v=1657045235" className="h-15" />
                                         <Card.Body className="d-flex justify-content-between">
                                             <Container className="d-flex justify-content-start align-items-center">
-                                                <Card.Title className="m-0">{user.name}</Card.Title>
+                                                <Card.Title className="m-0">{user.company_name}</Card.Title>
                                             </Container>
                                             <Container className="d-flex justify-content-end align-items-center">
                                                 <Link to="/profile" className=" text-decoration-none">

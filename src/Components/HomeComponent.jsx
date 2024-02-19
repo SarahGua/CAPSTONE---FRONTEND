@@ -27,7 +27,7 @@ function HomeComp(){
     }
 
     const handleLogin = (email, password) => {
-        fetch("http://localhost:3001/auth/login", {
+        fetch(process.env.REACT_APP_BE_URL + "/auth/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

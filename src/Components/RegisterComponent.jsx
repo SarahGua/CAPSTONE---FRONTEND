@@ -1,27 +1,31 @@
 import { Button, Col, Container, FormGroup, FormLabel, Row } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import React, { useEffect, useState } from 'react';
-import { json } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 function RegisterComp(){  
-    
-    const [fields, setFields] = useState([]);
 
+    
     const [register, setRegister] = useState({
         name: "",
         surname: "",
         email: "",
         password: "",
         phone: "",
-        role: "",
-        companyName: "",
-        companyEmail: "",
-        companyPhone: "",
-        VAT: "",
-        address: "",
-        field: ""
-        })
+        role: ""
+        // companyName: "",
+        // companyEmail: "",
+        // companyPhone: "",
+        // VAT: "",
+        // address: ""
+    })
+
+    const [formValid, setFormValid] = useState(false)
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log(register)
@@ -41,6 +45,10 @@ function RegisterComp(){
         }));
     }
 
+    useEffect(() => {
+        setFormValid(Object.values(register).every((value) => value !== ''))
+    }, [register])
+
     const handleSubmit = (e) => {
         e.preventDefault();
         fetch(process.env.REACT_APP_BE_URL + "/auth/register", {
@@ -50,42 +58,19 @@ function RegisterComp(){
         })
         .then(res => {
             if(res.ok){
-                return res.json
+                return res.json()
             } else {
                 throw new Error('errore', e)
             }
         })
         .then(data => {
             console.log(data)
+            navigate('/')
         })
         .catch(e => {
             console.log('errore nella registrazione', e)
         })
     }
-
-    useEffect (() => {
-        fetch(process.env.REACT_APP_BE_URL + "/field", {
-            method: "GET",
-            headers: { "Content-type": "application/json" },
-        })
-        .then(res => {
-            if(res.ok){
-                return res.json 
-            } else {
-                throw new Error('errore nel recupero fields')
-            }
-        })
-        .then(data => {
-            console.log(data)
-        })
-        .catch(e => {
-            console.log("errore caricamneto field", e)
-        })
-    }, [])
-
-
-
-
 
     return (
         <Container>
@@ -103,6 +88,7 @@ function RegisterComp(){
                             id={`inline-${radio}-1`}
                             className='text-white'
                             onChange={handleChange}
+                            required
                         />
                         <Form.Check
                             inline
@@ -113,6 +99,7 @@ function RegisterComp(){
                             id={`inline-${radio}-2`}
                             className='text-white'
                             onChange={handleChange}
+                            required
                         />
                         </div>
                     ))}
@@ -126,6 +113,7 @@ function RegisterComp(){
                                 placeholder="Name" 
                                 value={register.name} 
                                 onChange={handleChange}
+                                required
                                 />                
                             </FormGroup>
                             </Col>
@@ -137,7 +125,9 @@ function RegisterComp(){
                                 name='surname'
                                 placeholder="Surname" 
                                 value={register.surname} 
-                                onChange={handleChange}/>                
+                                onChange={handleChange}
+                                required
+                                />                
                             </FormGroup>
                             </Col>
                         </Row>
@@ -151,7 +141,9 @@ function RegisterComp(){
                                 name='phone'
                                 placeholder="Phone number" 
                                 value={register.phone} 
-                                onChange={handleChange}/>                
+                                onChange={handleChange}
+                                required
+                                />                
                             </FormGroup>
                             </Col>
                             <Col>
@@ -162,7 +154,9 @@ function RegisterComp(){
                                 name='email'
                                 placeholder="Enter email" 
                                 value={register.email} 
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                                required
+                                />
                             </Form.Group>
                             </Col>
                         </Row>
@@ -176,14 +170,16 @@ function RegisterComp(){
                                 name='password'
                                 placeholder="Password" 
                                 value={register.password} 
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                                required
+                                />
                             </Form.Group>
                             </Col>
                         </Row>
 
                         {/* seconda parte del form riservata allo user con ruolo "exhibitor" */}
 
-                        {register.role === "Exhibitor" && (
+                        {/* {register.role === "Exhibitor" && (
                             <>
                             
                         <Row className="mb-3 text-white">
@@ -195,7 +191,10 @@ function RegisterComp(){
                                 name='companyName'
                                 placeholder="Name" 
                                 value={register.companyName} 
-                                onChange={handleChange}/>                
+                                onChange={handleChange}
+                                required
+                                />                
+
                             </FormGroup>
                             </Col>
                             <Col>
@@ -206,7 +205,9 @@ function RegisterComp(){
                                 name='VAT'
                                 placeholder="VAT" 
                                 value={register.VAT} 
-                                onChange={handleChange}/>                
+                                onChange={handleChange}
+                                required
+                                />                
                             </FormGroup> 
                             </Col>
                         </Row>
@@ -220,13 +221,15 @@ function RegisterComp(){
                                 name='companyPhone'
                                 placeholder="Phone number" 
                                 value={register.companyPhone} 
-                                onChange={handleChange}/>                
+                                onChange={handleChange}
+                                required
+                                />                
                             </FormGroup>
                             </Col>
                             <Col>
                             <Form.Group className="mb-3 text-white" controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" value={register.companyEmail} onChange={handleChange}/>
+                                <Form.Control type="email" placeholder="Enter email" value={register.companyEmail} onChange={handleChange} required/>
                             </Form.Group>   
                             </Col>
                         </Row>
@@ -240,39 +243,30 @@ function RegisterComp(){
                                 name='address'
                                 placeholder="Street, street number, city, region, state" 
                                 value={register.address} 
-                                onChange={handleChange}/>                
+                                onChange={handleChange}
+                                required
+                                />                
                             </FormGroup>
                             </Col>
-                        </Row>
-
-                        <Row className='d-flex justify-content-center'>
-                            <Col className='col-4 my-3'>
-                                <Form.Select 
-                                aria-label="Default select example"
-                                name='field'
-                                value={register.field}
-                                onChange={handleChange}>
-                                    <option>Choose a field</option>
-                                    {fields.map(field => (
-                                    <option key={field.id} value={field.id}>{field.description}</option>
-                                    ))}
-                                </Form.Select>
-                            </Col>
-                        </Row>
-                            </>
-                        )}
+                        // </Row> */}
+                        {/* //     </>
+                        // )} */}
 
                         <Row className='d-flex justify-content-center my-3'>
                             <Col className='col-4 d-flex justify-content-center'>
-                                <Button variant="primary" type="submit">
-                                        Register
-                                </Button>
+
+                                    <Button variant="primary" type="submit" 
+                                    >
+                                    Register
+                                    </Button>
                             </Col>
                         </Row>
                     </Form>
                 </Col>
             </Row>
         </Container>
+
+        
     )
 }
 
