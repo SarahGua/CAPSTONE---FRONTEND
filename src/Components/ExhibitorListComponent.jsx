@@ -5,7 +5,7 @@ import '../Home.css';
 import { Link } from "react-router-dom";
 import { SuitHeartFill } from 'react-bootstrap-icons';
 import { useEffect, useState } from "react";
-import Alert from 'react-bootstrap/Alert';
+
 
 function ExhibitorListComp(){
 
@@ -124,14 +124,13 @@ function ExhibitorListComp(){
                                     <Card.Title className="m-0">{user.company_name}</Card.Title>
                                     </Container>
                                     <Container className="d-flex justify-content-end align-items-center">
-                                        <Link to="/profile" className=" text-decoration-none">
+                                        <Link to={`/profile/${user.id}`} className=" text-decoration-none">
                                             <Card.Text className="m-0 me-3" style={{color:'black'}}>
                                                 More Info
                                             </Card.Text>
                                         </Link>
                                         <Card.Text className="m-0">
                                         <SuitHeartFill className="iconSave d-flex align-items-center" 
-                                        // onClick={() => addToWishList("Company name")}
                                         />
                                         </Card.Text>
                                     </Container>
@@ -154,14 +153,13 @@ function ExhibitorListComp(){
                                             <Card.Title className="m-0">{user.company_name}</Card.Title>
                                             </Container>
                                             <Container className="d-flex justify-content-end align-items-center">
-                                                <Link to="/profile" className=" text-decoration-none">
+                                                <Link to={`/profile/${user.id}`} className=" text-decoration-none">
                                                     <Card.Text className="m-0 me-3" style={{color:'black'}}>
                                                         More Info
                                                     </Card.Text>
                                                 </Link>
                                                 <Card.Text className="m-0">
                                                 <SuitHeartFill className="iconSave d-flex align-items-center" 
-                                                // onClick={() => addToWishList("Company name")}
                                                 />
                                                 </Card.Text>
                                             </Container>

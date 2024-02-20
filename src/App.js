@@ -9,6 +9,7 @@ import ExhibitorProfile from './Components/ExhibitorProfile';
 import WishList from './Components/WishListComponent';
 import AgendaComp from './Components/AgendaComponent';
 import Appointment from './Components/Appointment';
+import Profile from './Components/Profile';
 
 function App() {
   return (
@@ -19,10 +20,11 @@ function App() {
         <Route element={<WelcomeComp />} path="/welcome"/>
         <Route element={<RegisterComp />} path='register'/>
         <Route element={<ExhibitorListComp />} path='/list'/>
-        <Route element={<ExhibitorProfile />} path='/profile'/>
+        <Route element={<ExhibitorProfile />} path='/profile/:id'/>
         <Route element={<WishList />} path='/wish'/>
         <Route element={<AgendaComp />} path='/agenda'/>
         <Route element={<Appointment />} path='/appointment'/>
+        <Route element={<Profile />} path='/myprofile'/>
       </Routes>
     </div>
     </BrowserRouter>

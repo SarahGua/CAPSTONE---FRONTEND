@@ -18,6 +18,7 @@ function NavBarComp(){
                             {/* </Col>
                             <Col className=''> */}
                                 <Link href="#wishList" className='text-light text-decoration-none' to="/wish">Whish List</Link>
+                                <Link href="#myprofilet" className='text-light text-decoration-none' to="/myprofile">Profile</Link>
                             {/* </Col>
                         </Row> */}
                     </Nav>
