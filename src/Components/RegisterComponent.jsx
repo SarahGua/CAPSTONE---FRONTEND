@@ -1,8 +1,6 @@
 import { Button, Col, Container, FormGroup, FormLabel, Row } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import React, { useEffect, useState } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -14,7 +12,7 @@ function RegisterComp(){
         surname: "",
         email: "",
         password: "",
-        phone: "",
+        phone_number: "",
         role: ""
         // companyName: "",
         // companyEmail: "",
@@ -23,6 +21,7 @@ function RegisterComp(){
         // address: ""
     })
 
+    // eslint-disable-next-line no-unused-vars
     const [formValid, setFormValid] = useState(false)
 
     const navigate = useNavigate();
@@ -138,9 +137,9 @@ function RegisterComp(){
                                 <FormLabel>Phone number</FormLabel>
                                 <Form.Control 
                                 type="text" 
-                                name='phone'
+                                name='phone_number'
                                 placeholder="Phone number" 
-                                value={register.phone} 
+                                value={register.phone_number} 
                                 onChange={handleChange}
                                 required
                                 />                
@@ -178,9 +177,10 @@ function RegisterComp(){
                         </Row>
 
                         {/* seconda parte del form riservata allo user con ruolo "exhibitor" */}
-
-                        {/* {register.role === "Exhibitor" && (
+{/* 
+                        {register.role === "Exhibitor" && (
                             <>
+                            <h3>Company information</h3>
                             
                         <Row className="mb-3 text-white">
                             <Col>
@@ -227,9 +227,15 @@ function RegisterComp(){
                             </FormGroup>
                             </Col>
                             <Col>
-                            <Form.Group className="mb-3 text-white" controlId="formBasicEmail">
+                            <Form.Group className="mb-3 text-white" controlId="formBasicCompanyEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" value={register.companyEmail} onChange={handleChange} required/>
+                                <Form.Control 
+                                type="email" 
+                                placeholder="Enter email" 
+                                value={register.companyEmail} 
+                                onChange={handleChange} 
+                                required
+                                />
                             </Form.Group>   
                             </Col>
                         </Row>
@@ -248,9 +254,9 @@ function RegisterComp(){
                                 />                
                             </FormGroup>
                             </Col>
-                        // </Row> */}
-                        {/* //     </>
-                        // )} */}
+                        </Row>
+                        </>
+                        )}  */}
 
                         <Row className='d-flex justify-content-center my-3'>
                             <Col className='col-4 d-flex justify-content-center'>

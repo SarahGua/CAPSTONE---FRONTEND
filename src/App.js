@@ -10,6 +10,7 @@ import WishList from './Components/WishListComponent';
 import AgendaComp from './Components/AgendaComponent';
 import Appointment from './Components/Appointment';
 import Profile from './Components/Profile';
+import StandBooking from './Components/StandBooking';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route element={<AgendaComp />} path='/agenda'/>
         <Route element={<Appointment />} path='/appointment'/>
         <Route element={<Profile />} path='/myprofile'/>
+        <Route element={<StandBooking />} path='/standBooking'/>
       </Routes>
     </div>
     </BrowserRouter>

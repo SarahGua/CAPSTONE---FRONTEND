@@ -27,3 +27,7 @@ h1 {
   font-size: 1em;
   color: black;
 }
+
+.card-clicked {
+  border-color: darkBlue !important;
+}

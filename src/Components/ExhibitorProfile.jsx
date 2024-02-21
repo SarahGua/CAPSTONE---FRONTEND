@@ -8,10 +8,11 @@ import { useEffect, useState } from "react";
 function ExhibitorProfile(){
 
     const {id} = useParams()
-    console.log('parametri', id)
+
     const [companyDetails, setCompanyDetails] = useState('')
 
     const getDetails = () => {
+        console.log('parametri', id)
         const token = localStorage.getItem('token')
         console.log(id)
         fetch(`${process.env.REACT_APP_BE_URL}/user/${id}`, {
