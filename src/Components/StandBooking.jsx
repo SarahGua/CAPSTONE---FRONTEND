@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
+import { Alert, Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
 import '../Home.css';
+import NavBarComp from "./NavBarComponent";
 
 function StandBooking(){
 
@@ -14,6 +15,8 @@ function StandBooking(){
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [alertShow, setAlertShow] = useState(false);
 
     const [selectedStand, setSelectedStand] = useState(null)
 
@@ -82,8 +85,12 @@ function StandBooking(){
         })
         .then((res) => {
             if(res.ok){
+                // setAlertShow(true)
+                // setShow(true)
                 handleClose(); 
             } else {
+                // setAlertShow(false)
+                // setShow(true)
                 throw new Error('Errore nella prenotazione dello stand');
             }
         })
@@ -99,6 +106,7 @@ function StandBooking(){
 
     return (
         <Container>
+            <NavBarComp />
                 <Card className="my-5">
                     <Card.Body>
                         <Row>
@@ -138,7 +146,19 @@ function StandBooking(){
                                 Confirm
                             </Button>
                         </Modal.Footer>
+                        {/* ------------------------Alert------------------------------ */}
+                        {/* {alertShow === true && 
+                            <Alert variant="success" onClose={() => alertShow(null)} dismissible>
+                                Stand booked successfully!
+                            </Alert>
+                        }
+                        {alertShow === false && 
+                            <Alert variant="danger" onClose={() => alertShow(null)} dismissible>
+                                Error booking the stand!
+                            </Alert>
+                        } */}
                 </Modal>
+
         </Container>
     )
 }

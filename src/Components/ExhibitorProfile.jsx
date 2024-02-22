@@ -1,4 +1,4 @@
-import { CardText, Col, Container, Row } from "react-bootstrap"
+import { CardText, Col, Container, Modal, Row } from "react-bootstrap"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import NavBarComp from "./NavBarComponent";
@@ -10,6 +10,11 @@ function ExhibitorProfile(){
     const {id} = useParams()
 
     const [companyDetails, setCompanyDetails] = useState('')
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const getDetails = () => {
         console.log('parametri', id)
@@ -88,12 +93,29 @@ function ExhibitorProfile(){
                                     </Container>
                                 </Card.Body>
                             </Card>
-                            <Button variant="info" className="vh-25">Book an appointment!</Button>
+                            <Button variant="info" className="vh-25" onClick={handleShow}>Book an appointment!</Button>
                         </Card.Text>
                     </Card.Body>
                 </Card>
             </Col>
         </Row>
+
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+            <Modal.Title>Book your appointment with xxx</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                
+            </Modal.Body>
+            <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+                Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+                Save Changes
+            </Button>
+            </Modal.Footer>
+        </Modal>
         </Container>
     )
 }

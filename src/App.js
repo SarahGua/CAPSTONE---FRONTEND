@@ -11,6 +11,7 @@ import AgendaComp from './Components/AgendaComponent';
 import Appointment from './Components/Appointment';
 import Profile from './Components/Profile';
 import StandBooking from './Components/StandBooking';
+import Ticket from './Components/Ticket';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route element={<Appointment />} path='/appointment'/>
         <Route element={<Profile />} path='/myprofile'/>
         <Route element={<StandBooking />} path='/standBooking'/>
+        <Route element={<Ticket />} path='/ticket'/>
       </Routes>
     </div>
     </BrowserRouter>

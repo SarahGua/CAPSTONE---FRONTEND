@@ -1,6 +1,7 @@
 import { Button, Card, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import NavBarComp from "./NavBarComponent"
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Profile(){
 
@@ -207,6 +208,17 @@ function Profile(){
                                     <Col className="d-flex flex-column align-items-center">
                                         <Button variant="info" className="mb-2">Check you agenda!</Button>
                                         <Button variant="secondary" onClick={handleShow}>Modify your profile</Button>
+                                        {
+                                            user && user.role === 'EXHIBITOR' ? (
+                                                <Link to={`/standBooking`}>                                               
+                                                    <Button variant="info" className="mb-2">Book your stand!</Button>
+                                                </Link>
+                                            ) : (
+                                                <Link to="/ticket">                                               
+                                                    <Button variant="info" className="mb-2">Book your ticket!</Button>
+                                                </Link>
+                                            )
+                                        }
                                     </Col>
                                 </Row>   
                     </Card.Text>
