@@ -1,4 +1,4 @@
-import { CardText, Col, Container, Modal, Row } from "react-bootstrap"
+import { CardText, Col, Container, Form, Modal, Row } from "react-bootstrap"
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import NavBarComp from "./NavBarComponent";
@@ -15,6 +15,10 @@ function ExhibitorProfile(){
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [appointment, setAppointment] = useState([
+        
+    ])
 
     const getDetails = () => {
         console.log('parametri', id)
@@ -102,10 +106,47 @@ function ExhibitorProfile(){
 
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>Book your appointment with xxx</Modal.Title>
+            <Modal.Title>Book your appointment with {companyDetails.company_name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+            <Form>
+            {['radio'].map((radio) => (
+                <div key={`inline-${radio}`} className="mb-3">
+                <Form.Check
+                    inline
+                    label="26/06/2024"
+                    name="group1"
+                    type={radio}
+                    id={`inline-${radio}-1`}
+                />
+                <Form.Check
+                    inline
+                    label="27.06.2024"
+                    name="group1"
+                    type={radio}
+                    id={`inline-${radio}-2`}
+                />
+                <Form.Check
+                    inline
+                    label="28.06.2024"
+                    type={radio}
+                    id={`inline-${radio}-3`}
+                />
+                <Form.Select aria-label="Default select example">
+                    <option>Select the time</option>
+                    <option value="1">09:00-10:00</option>
+                    <option value="1">10:00-11:00</option>
+                    <option value="1">11:00-12:00</option>
+                    <option value="1">12:00-13:00</option>
+                    <option value="1">14:00-15:00</option>
+                    <option value="1">15:00-16:00</option>
+                    <option value="1">16:00-17:00</option>
+                    <option value="1">18:00-19:00</option>
+                </Form.Select>
+                </div>
                 
+            ))}
+            </Form>
             </Modal.Body>
             <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
