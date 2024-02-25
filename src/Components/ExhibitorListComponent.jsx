@@ -27,7 +27,8 @@ function ExhibitorListComp(){
 
     const getUsers = () => {
         const token = localStorage.getItem('token')
-        fetch(process.env.REACT_APP_BE_URL + "/user", {
+        console.log(token)
+        fetch(process.env.REACT_APP_BE_URL + `/user`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'

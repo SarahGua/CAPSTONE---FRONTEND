@@ -13,6 +13,15 @@ function Profile(){
     const [user, setUser] = useState([])
 
     const [field, setField] = useState([])
+    const [selectedField, setSelectedField] = useState('')
+
+    const handleSelectedField = (e) => {
+        setSelectedField(e.target.value)
+    }
+    
+    useEffect(() => {
+        console.log(selectedField)
+    }, [selectedField])
 
     const [formData, setFormData] = useState({
         name: user.name || '',
@@ -23,8 +32,9 @@ function Profile(){
         company_phone_number: user.company_phone_number || '',
         vat: user.vat || '',
         address: user.address || '',
-        field: user.field || ''
+        img_url: user.img_url 
     })
+
 
     const getUserProfile = () => {
         const token = localStorage.getItem('token')
@@ -46,7 +56,6 @@ function Profile(){
         .then((data) => {
             console.log(data)
             setUser(data)
-            console.log(user.vat)
             
         })
         .catch((err) => console.log(err, "errore"))
@@ -93,33 +102,49 @@ function Profile(){
             company_phone_number: user.company_phone_number || '',
             vat: user.vat || '',
             address: user.address || '',
-            field: field.user || ''
-        });
-        console.log('ecco la VAT:', formData.vat)
-        console.log('ecco la user.vat:', user.vat)
-        console.log('ecco il formData.field:', formData.field)
-        console.log('ecco il user.field:', user.field)
-
+            img_url: user.img_url 
+        })
     }, [user]);
 
     const handleChange = (e) => {
         setFormData({...formData, 
         [e.target.name]: e.target.value
-    })
+        })
     }
 
     const handleSaveChanges = () => {
+        const token = localStorage.getItem('token');
+        console.log('ecco lo user.id', user.id)
 
-        const selectedField = field.find(f => f.description === formData.field)
-        console.log('questo è il selectedField:', selectedField)
-        if(selectedField){
-            selectedField.users.push(user)
-            const updatedFieldList = field.map(f => f.id === selectedField.id ? selectedField : f)
-            console.log('questa è la nuova lista di field:',  updatedFieldList)
-            setField(updatedFieldList)
+        if(user.role === 'EXHIBITOR'){          
+            const selectedFieldObj = field.find(field => field.description === selectedField);
+            console.log('ecco il selectedField.id', selectedFieldObj)
+            console.log('ecco id del field', selectedFieldObj.id)
+
+            fetch(process.env.REACT_APP_BE_URL + `/field/${selectedFieldObj.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({userId: user.id})
+            })
+            .then((res) => {
+                if(res.ok){
+                    console.log('User added to field successfully');
+                    getUserProfile();
+                    handleClose();
+                } else {
+                    throw new Error('Error while saving data');
+                }
+            })
+            .catch((err) => console.log(err));
         }
 
-        const token = localStorage.getItem('token');
+        const file = document.querySelector('#formFile').files[0];
+        const formDataToSend = new FormData()
+
+
         fetch(process.env.REACT_APP_BE_URL + `/user/${user.id}`, {
             method: 'PUT',
             headers: {
@@ -138,6 +163,38 @@ function Profile(){
             }
         })
         .catch((err) => console.log(err));
+
+
+        if(file){
+            formDataToSend.append('avatar', file)
+
+
+            fetch(process.env.REACT_APP_BE_URL + `/user/${user.id}/uploadAvatar`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: formDataToSend
+            })
+            .then((res) => {
+                if(res.ok){
+                    return res.text()
+                } else {
+                    throw new Error ('errore nel caricamentod dell immagine')
+                }
+            })
+            .then((data) =>  {
+                console.log('immagine caricata con successo', data)
+                setUser(prevUser => ({
+                    ...prevUser,
+                    img_url: data.url
+                }))
+            })
+            .then(() => {
+                window.location.reload()
+            })
+            .catch((e) => console.log('errore:', e))
+        }
     };
 
     return (
@@ -146,7 +203,7 @@ function Profile(){
             <Card>
                 <Card.Body>
                     <div className="d-flex align-items-center justify-content-center mb-5 mt-3">
-                    <img src="https://cdn.shopify.com/s/files/1/1395/5787/files/mola_2_abstract_1950s_1024x1024.jpg?v=1613952286g" className='rounded w-25 me-3' alt='profile-img'/>
+                    <img src={user.img_url} className='rounded w-25 me-3' alt='profile-img'/>
                     <Card.Title>{user.name}</Card.Title>
                     </div>
                     <Card.Text>
@@ -197,7 +254,10 @@ function Profile(){
                                                                         Company VAT: {user.vat}
                                                                     </Col>
                                                                     <Col>
-                                                                        Field: {formData.field}
+                                                                    Field: {field.map((f) => {
+                                                                        const userInField = f.users.find(fieldUser => fieldUser.id === user.id);
+                                                                        return userInField ? f.description : null;
+                                                                    })}
                                                                     </Col>
                                                                 </Row> 
                                                             </Card.Body>
@@ -265,6 +325,14 @@ function Profile(){
                                     onChange={handleChange}
                                 />
                             </Form.Group>
+                            <Form.Group controlId="formFile" className="mb-3">
+                                <Form.Label>Profile picture</Form.Label>
+                                <Form.Control 
+                                type="file" 
+                                accept="image/*"
+                                onChange={handleChange}
+                                />
+                            </Form.Group>
                     </Form>
                         {user.role === 'EXHIBITOR' && (
                                                     <Form>                                                  
@@ -273,7 +341,7 @@ function Profile(){
                                                         <Form.Label>Company name</Form.Label>
                                                         <Form.Control
                                                             type="text"
-                                                            placeholder="+39 333 3333333"
+                                                            placeholder="Company name"
                                                             autoFocus
                                                             name="company_name"
                                                             value={formData.company_name}
@@ -281,10 +349,10 @@ function Profile(){
                                                         />
                                                     </Form.Group>
                                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                                        <Form.Label>company email</Form.Label>
+                                                        <Form.Label>Company email</Form.Label>
                                                         <Form.Control
                                                             type="text"
-                                                            placeholder="+39 333 3333333"
+                                                            placeholder="Company email"
                                                             autoFocus
                                                             name="company_email"
                                                             value={formData.company_email}
@@ -306,7 +374,7 @@ function Profile(){
                                                         <Form.Label>Address</Form.Label>
                                                         <Form.Control
                                                             type="text"
-                                                            placeholder="+39 333 3333333"
+                                                            placeholder="Full address"
                                                             autoFocus
                                                             name="address"
                                                             value={formData.address}
@@ -328,9 +396,9 @@ function Profile(){
                                                         <Form.Label>Field</Form.Label>
                                                         <Form.Select 
                                                         aria-label="Default select example"
-                                                        name="field"
-                                                        value={formData.field}
-                                                        onChange={handleChange}
+                                                        // name="field"
+                                                        // value={''}
+                                                        onChange={handleSelectedField}
                                                         >
                                                             <option>Select field</option>
                                                             {
@@ -338,7 +406,7 @@ function Profile(){
                                                                     return (
                                                                         <option 
                                                                         value={f.description} 
-                                                                        name='field'
+                                                                        // name='field'
                                                                         key={f.id} 
                                                                         // onChange={handleChange}
                                                                         >{f.description}
@@ -353,7 +421,7 @@ function Profile(){
 
                     </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="primary" onClick={() => {handleClose(); handleSaveChanges();}}>
+                            <Button variant="primary" onClick={() => {handleSaveChanges()}}>
                                 Save Changes
                             </Button>
                         </Modal.Footer>
