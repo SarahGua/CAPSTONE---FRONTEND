@@ -16,9 +16,57 @@ function ExhibitorProfile(){
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [appointment, setAppointment] = useState([
+    const [user, setUser] = useState([])
+
+    const [allAppointments, setAllAppointments] = useState([])
+
+    const [selectedAppointment, setSelectedAppointment] = useState({
+            date: '',
+            time: '',
+            clientId: user.id,
+            exhibitorId: id
+    })
+
+    const handleInputChange = (e) => {
+        if(e.target.type === "radio" && e.target.checked){
+            setSelectedAppointment(prevState => ({
+                ...prevState,
+                date: e.target.value
+            }))
+        }
+
+        setSelectedAppointment(prevState => ({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }))
+    }
+
+
         
-    ])
+    const getUserProfile = () => {
+        const token = localStorage.getItem('token')
+        console.log(token)
+
+        fetch(process.env.REACT_APP_BE_URL + `/user/token/${token}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+            if(res.ok){
+                return res.json()
+            } else {
+                throw new Error('Errore nel recupero dati')
+            }
+        })
+        .then((data) => {
+            console.log(data)
+            setUser(data)
+            
+        })
+        .catch((err) => console.log(err, "errore"))
+    }
 
     const getDetails = () => {
         console.log('parametri', id)
@@ -40,14 +88,75 @@ function ExhibitorProfile(){
         .then((data) => {
             console.log(data)
             setCompanyDetails(data)
-            console.log('questa è lazienda: ' + JSON.stringify(companyDetails))
         })
         .catch((e) => console.log('errore' + e))
     }
 
     useEffect(() => {
             getDetails()
+            getUserProfile()
+            getAppointments()
+            console.log('questo è lo user', user)
+            console.log("questi sono gli appointment", )
     }, [id])
+
+    const getAppointments = () => {
+        const token = localStorage.getItem('token')
+
+        fetch(`${process.env.REACT_APP_BE_URL}/appointment`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        })
+        .then((res) => {
+            if(res.ok){
+                return res.json()
+            } else {
+                throw new Error('errore nel caricamento dei dati')
+            }
+        })
+        .then((data) => {
+            console.log(data)
+            setAllAppointments(data)
+        })
+        .catch((e) => console.log('questo è l errore', e)) 
+    }
+
+    const bookAppointment = () => {
+        const token = localStorage.getItem('token')
+        console.log('questo è il parameter exhibitor id', id)
+
+        const dataToBookApp = {
+            date: selectedAppointment.date,
+            time: selectedAppointment.time,
+            exhibitorId: id,
+            clientId: user.id
+        }
+        console.log(dataToBookApp)
+
+        fetch(`${process.env.REACT_APP_BE_URL}/appointment/book/${id}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataToBookApp)
+        })
+        .then((res) => {
+            if(res.ok){
+                return res.json()
+            } else {
+                throw new Error('errore nel caricamento dei dati')
+            }
+        })
+        .catch((e) => console.log('questo è l errore', e)) 
+    }
+
+    const handleSaveChanges = () => {
+        bookAppointment()
+        handleClose()
+    }
 
 
     return(
@@ -115,33 +224,42 @@ function ExhibitorProfile(){
                 <Form.Check
                     inline
                     label="26/06/2024"
-                    name="group1"
+                    name="date"
                     type={radio}
                     id={`inline-${radio}-1`}
+                    value="26.06.2024"
+                    onChange={handleInputChange}
                 />
                 <Form.Check
                     inline
                     label="27.06.2024"
-                    name="group1"
+                    name="date"
                     type={radio}
                     id={`inline-${radio}-2`}
+                    value="27.06.2024"
+                    onChange={handleInputChange}
                 />
                 <Form.Check
                     inline
                     label="28.06.2024"
+                    name="date"
                     type={radio}
                     id={`inline-${radio}-3`}
+                    value="28.06.2024"
+                    onChange={handleInputChange}
                 />
-                <Form.Select aria-label="Default select example">
+                <Form.Select aria-label="Default select example" name="time" onChange={handleInputChange}>
                     <option>Select the time</option>
-                    <option value="1">09:00-10:00</option>
-                    <option value="1">10:00-11:00</option>
-                    <option value="1">11:00-12:00</option>
-                    <option value="1">12:00-13:00</option>
-                    <option value="1">14:00-15:00</option>
-                    <option value="1">15:00-16:00</option>
-                    <option value="1">16:00-17:00</option>
-                    <option value="1">18:00-19:00</option>
+                    {['09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '18:00-19:00'].map((timeSlot) => {
+                        const appointmentExists = allAppointments.some(appointment => 
+                            appointment.exhibitor.id === id && 
+                            appointment.date === appointment.date && 
+                            appointment.time === timeSlot && 
+                            appointment.status === 'BOOKED' &&
+                            appointment.date === selectedAppointment.date
+                        );
+                        return <option key={timeSlot} value={timeSlot} disabled={appointmentExists}>{timeSlot}</option>;
+                    })}
                 </Form.Select>
                 </div>
                 
@@ -149,10 +267,7 @@ function ExhibitorProfile(){
             </Form>
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-                Close
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={handleSaveChanges}>
                 Save Changes
             </Button>
             </Modal.Footer>
