@@ -116,8 +116,8 @@ function Profile(){
         const token = localStorage.getItem('token');
         console.log('ecco lo user.id', user.id)
 
-        if(user.role === 'EXHIBITOR'){          
-            const selectedFieldObj = field.find(field => field.description === selectedField);
+        const selectedFieldObj = field.find(field => field.description === selectedField);
+        if(user.role === 'EXHIBITOR' && selectedFieldObj){          
             console.log('ecco il selectedField.id', selectedFieldObj)
             console.log('ecco id del field', selectedFieldObj.id)
 
@@ -190,11 +190,11 @@ function Profile(){
                     img_url: data.url
                 }))
             })
-            .then(() => {
-                window.location.reload()
-            })
+            // .then(() => {
+            // })
             .catch((e) => console.log('errore:', e))
         }
+        // window.location.reload()
     };
 
     return (
@@ -266,7 +266,6 @@ function Profile(){
                             )}
                                                             <Row className="mb-3">
                                     <Col className="d-flex flex-column align-items-center">
-                                        <Button variant="info" className="mb-2">Check you agenda!</Button>
                                         <Button variant="secondary" onClick={handleShow}>Modify your profile</Button>
                                         {
                                             user && user.role === 'EXHIBITOR' ? (

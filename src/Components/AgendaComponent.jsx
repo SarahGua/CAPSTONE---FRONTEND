@@ -1,8 +1,90 @@
-import { Card, Col, Container, Row } from "react-bootstrap"
+import { Alert, Card, Col, Container, Row } from "react-bootstrap"
 import NavBarComp from "./NavBarComponent"
 import '../Home.css';
+import { useEffect, useState } from "react";
+import { Trash3 } from "react-bootstrap-icons"
 
 function AgendaComp(){
+
+    const [appointments, setAppointments] = useState([])
+
+    const [user, setUser] = useState([])
+
+    const getUserProfile = () => {
+        const token = localStorage.getItem('token')
+        console.log(token)
+
+        fetch(process.env.REACT_APP_BE_URL + `/user/token/${token}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+            if(res.ok){
+                return res.json()
+            } else {
+                throw new Error('Errore nel recupero dati')
+            }
+        })
+        .then((data) => {
+            console.log(data)
+            setUser(data)
+            
+        })
+        .catch((err) => console.log(err, "errore"))
+    }
+
+    const getAppointments = () => {
+        const token = localStorage.getItem('token')
+
+        fetch(`${process.env.REACT_APP_BE_URL}/appointment`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+        })
+        .then((res) => {
+            if(res.ok){
+                return res.json()
+            } else {
+                throw new Error('errore nel caricamento dei dati')
+            }
+        })
+        .then((data) => {
+            console.log(data)
+            setAppointments(data)
+        })
+        .catch((e) => console.log('questo è l errore', e)) 
+    }
+
+    const handleDeleteAppointment = (id) => {
+        const token = localStorage.getItem('token')
+
+        fetch(`${process.env.REACT_APP_BE_URL}/appointment/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+            if(res.ok){
+                getAppointments();
+            } else {
+                throw new Error('Errore durante l\'eliminazione dell\'appuntamento')
+            }
+        })
+        .catch((err) => console.log(err, "errore"))
+    }
+
+    useEffect(() => {
+        getAppointments()
+        console.log("questi sono gli appointment", )
+        getUserProfile()
+    }, []) 
+
+
     return (
         <Container>
             <NavBarComp />
@@ -13,41 +95,89 @@ function AgendaComp(){
             </Row>
 
             {/* cards */}
-            <Row className="mt-5">
-                <Col>             
-                    <Card className="d-flex flex-row">
-                        <Card.Img variant="top" src="https://brasaperuvian.com/cdn/shop/articles/iStock-468588494_2000x.jpg?v=1657045235" className="h-15" />
-                        <Card.Body className="d-flex justify-content-between">
-                            <Container className="d-flex justify-content-start align-items-center">
-
-                            <Card.Title className="m-0">Company name</Card.Title>
-                            </Container>
-                            <Container className="d-flex justify-content-end align-items-center">
-                                <Card.Text className="m-0 me-3">
-                                    Date
-                                </Card.Text>
-                                <Card.Text className="m-0">
-                                    Hour
-                                </Card.Text>
-                            </Container>
-                        </Card.Body>
-                    </Card>
-                    {/* <Row className="text-white">
-                        <Col className="col-4 p-0">
-                            <img src="https://cdn.shopify.com/s/files/1/1395/5787/files/mola_2_abstract_1950s_1024x1024.jpg?v=1613952286g" className='rounded w-25' alt='logo' />
+            {
+                user.id === "CLIENT" ? (
+                <Row className="mt-5">
+                    {
+                        appointments
+                        .filter(app => app.client.id === user.id)
+                        .map((app) => (
+                            <Col className="col-12">             
+                            <Card className="d-flex flex-row">
+                                <Card.Img variant="top" src="https://brasaperuvian.com/cdn/shop/articles/iStock-468588494_2000x.jpg?v=1657045235" className="h-15" />
+                                <Card.Body className="d-flex justify-content-between">
+                                    <Container className="d-flex justify-content-start align-items-center">
+        
+                                    <Card.Title className="m-0">{app.exhibitor.company_name}</Card.Title>
+                                    </Container>
+                                    <Container className="d-flex justify-content-end align-items-center">
+                                        <Card.Text className="m-0 me-3">
+                                            {app.date}
+                                        </Card.Text>
+                                        <Card.Text className="m-0">
+                                            {app.time}
+                                        </Card.Text>
+                                        <Card.Text>
+                                            <Trash3 onClick={() => handleDeleteAppointment(app.id)}></Trash3>
+                                        </Card.Text>
+                                    </Container>
+                                </Card.Body>
+                            </Card>
                         </Col>
-                        <Col >
-                            <h5>Company name</h5>
+                        )             
+                    )}
+                    {
+                        appointments.some(app => app.client.id === user.id) ? null : (
+                            <Col>
+                                <p>Non ci sono appuntamenti prenotati</p>
+                            </Col>
+                        )
+                    }
+                </Row>
+                ) : (
+                    <Row className="mt-5">
+                    {
+                        appointments
+                        .filter(app => app.exhibitor.id === user.id)
+                        .map((app) => (
+                            <Col className="col-12">             
+                            <Card className="d-flex flex-row">
+                                <Card.Img variant="top" src="https://brasaperuvian.com/cdn/shop/articles/iStock-468588494_2000x.jpg?v=1657045235" className="h-15" />
+                                <Card.Body className="d-flex justify-content-between">
+                                    <Container className="d-flex justify-content-start align-items-center">
+        
+                                    <Card.Title className="m-0">{app.client.name}</Card.Title>
+                                    </Container>
+                                    <Container className="d-flex justify-content-end align-items-center">
+                                        <Card.Text className="m-0 me-3">
+                                            {app.date}
+                                        </Card.Text>
+                                        <Card.Text className="m-0">
+                                            {app.time}
+                                        </Card.Text>
+                                        <Card.Text>
+                                            <Trash3 onClick={() => handleDeleteAppointment(app.id)}></Trash3>
+                                        </Card.Text>
+                                    </Container>
+                                </Card.Body>
+                            </Card>
                         </Col>
-                        <Col className="col-2 p-0">
-                            <h5>More info</h5>
-                        </Col>
-                        <Col className="col-1 p-0">
-                            <h5>SAVE</h5>
-                        </Col>
-                    </Row> */}
-                </Col>
-            </Row>
+                        )             
+                    )}
+                    {
+                        appointments.some(app => app.exhibitor.id === user.id) ? null : (
+                            <Col className="col-6">
+                                    <Alert variant="info">
+                                        <p className="m-0">
+                                            No appintments scheduled!
+                                        </p>
+                                    </Alert>
+                            </Col>
+                        )
+                    }
+                </Row>
+                )
+            }
         </Container>
     )
 }
