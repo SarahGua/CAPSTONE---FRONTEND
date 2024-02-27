@@ -1,4 +1,4 @@
-import { Card, Col, Container, Row } from "react-bootstrap"
+import { Button, Card, Col, Container, Row } from "react-bootstrap"
 import NavBarComp from "./NavBarComponent"
 import Form from 'react-bootstrap/Form';
 import '../Home.css';
@@ -51,6 +51,7 @@ function ExhibitorListComp(){
 
     useEffect(() => {
         getUsers()
+        console.log(users)
     }, [])
 
     const getFields = () => {
@@ -118,7 +119,7 @@ function ExhibitorListComp(){
                     .map(user => (
                         <Col className="col-12 my-3" key={user.id}>             
                             <Card className="d-flex flex-row">
-                                <Card.Img variant="top" src="https://brasaperuvian.com/cdn/shop/articles/iStock-468588494_2000x.jpg?v=1657045235" className="h-15" />
+                                <Card.Img variant="top" src={user.img_url} className="h-15" />
                                 <Card.Body className="d-flex justify-content-between">
                                     <Container className="d-flex justify-content-start align-items-center">
 
@@ -137,6 +138,13 @@ function ExhibitorListComp(){
                                     </Container>
                                 </Card.Body>
                             </Card>
+                            {/* <Card>
+                                <Card.Img variant="top" src={user.img_url} />
+                                <Card.Body>
+                                    <Card.Title>{user.company_name}</Card.Title>
+                                    <Button variant="primary">More info</Button>
+                                </Card.Body>
+                            </Card> */}
                         </Col>
                     ))
                 }
@@ -146,8 +154,8 @@ function ExhibitorListComp(){
                             if(user.role === "EXHIBITOR"){
                                 return (
                                     <Col className="col-12 my-3" key={user.id}>             
-                                    <Card className="d-flex flex-row">
-                                        <Card.Img variant="top" src="https://brasaperuvian.com/cdn/shop/articles/iStock-468588494_2000x.jpg?v=1657045235" className="h-15" />
+                                    <Card className="d-flex flex-row bg-darkBlue text-white">
+                                        <Card.Img variant="top" src={user.img_url} className="h-15" />
                                         <Card.Body className="d-flex justify-content-between">
                                             <Container className="d-flex justify-content-start align-items-center">
         
@@ -155,17 +163,25 @@ function ExhibitorListComp(){
                                             </Container>
                                             <Container className="d-flex justify-content-end align-items-center">
                                                 <Link to={`/profile/${user.id}`} className=" text-decoration-none">
-                                                    <Card.Text className="m-0 me-3" style={{color:'black'}}>
+                                                    {/* <Card.Text className="m-0 me-3" style={{color:'black'}}>
                                                         More Info
-                                                    </Card.Text>
+                                                    </Card.Text> */}
+                                                    <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">More info</Button>
                                                 </Link>
                                                 <Card.Text className="m-0">
-                                                <SuitHeartFill className="iconSave d-flex align-items-center" 
-                                                />
+                                                {/* <SuitHeartFill className="iconSave d-flex align-items-center" 
+                                                /> */}
                                                 </Card.Text>
                                             </Container>
                                         </Card.Body>
                                     </Card>
+                                    {/* <Card className="h-100 border border-0">
+                                        <Card.Img variant="top" src={user.img_url}/>
+                                        <Card.Body className="d-flex flex-column justify-content-around align-items-center bg-darkBlue ">
+                                            <Card.Title className="text-white">{user.company_name}</Card.Title>
+                                            <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">More info</Button>
+                                        </Card.Body>
+                                    </Card> */}
                                 </Col>
                                 )
                             }
@@ -178,7 +194,7 @@ function ExhibitorListComp(){
                             return f.users.map((user) => (
                                 <Col className="col-12 my-3" key={user.id}>             
                                     <Card className="d-flex flex-row">
-                                        <Card.Img variant="top" src="https://brasaperuvian.com/cdn/shop/articles/iStock-468588494_2000x.jpg?v=1657045235" className="h-15" />
+                                        <Card.Img variant="top" src={user.img_url} className="h-15" />
                                         <Card.Body className="d-flex justify-content-between">
                                             <Container className="d-flex justify-content-start align-items-center">
                                                 <Card.Title className="m-0">{user.company_name}</Card.Title>

@@ -156,18 +156,19 @@ function ExhibitorProfile(){
     const handleSaveChanges = () => {
         bookAppointment()
         handleClose()
+        window.location.reload()
     }
 
 
     return(
         <Container>
         <NavBarComp />
-        <Row className="d-flex justify-content-center">
+        {/* <Row className="d-flex justify-content-center">
             <Col className="col-md-10 col-sm-8 col-xs-6">
-                <Card>
+                <Card className="bg-darkBlue border border-0">
                     <Card.Body>
                         <div className="d-flex align-items-center justify-content-center mb-5">
-                            <img src="https://cdn.shopify.com/s/files/1/1395/5787/files/mola_2_abstract_1950s_1024x1024.jpg?v=1613952286g" className='rounded w-25 me-3' alt='profile-img'/>
+                            <img src={companyDetails.img_url} className='rounded w-25 me-3' alt='profile-img'/>
                             <Card.Title>{companyDetails.company_name}</Card.Title>
                         </div>
                         <Card.Text className="d-flex justfy-content-around align-items-center">
@@ -211,13 +212,66 @@ function ExhibitorProfile(){
                     </Card.Body>
                 </Card>
             </Col>
+        </Row> */}
+
+        <Row className="text-similWhite d-flex align-items-center">
+            <Col className="col-4 d-flex align-items-center">
+                <img src={companyDetails.img_url} className='rounded w-100 me-3' alt='profile-img'/>
+            </Col>
+            <Col>
+                <Row>
+                    <Col className="col-12 d-flex justify-content-center">
+                        <h1>{companyDetails.company_name}</h1>
+                    </Col>
+                    <Col>
+                    <Card.Body >
+                        <Card.Title className="my-3">Information</Card.Title>
+                            <Container className="p-0">
+                                <Row>
+                                    <Col className="d-flex flex-colummn align-items-center">
+                                        <Card.Text className="m-0">
+                                            NAME: {companyDetails.company_name}
+                                        </Card.Text>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col className="d-flex flex-colummn align-items-center">
+                                        <Card.Text className="m-0">
+                                            EMAIL: {companyDetails.company_email}
+                                        </Card.Text>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col className="d-flex flex-colummn align-items-center">
+                                        <Card.Text className="m-0">
+                                            ADDRESS: {companyDetails.address}
+                                        </Card.Text>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col className="d-flex flex-colummn align-items-center">
+                                        <Card.Text className="m-0 mb-3">
+                                            PHONE NUMBER: {companyDetails.company_phone_number}
+                                        </Card.Text>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Card.Body>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="d-flex justify-content-center">
+                        <Button variant="info" className="vh-25 border border-lightn bg-transparent border-3 text-white" onClick={handleShow}>Book an appointment!</Button>
+                    </Col>
+                </Row>
+            </Col>
         </Row>
 
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
+        <Modal show={show} onHide={handleClose} className="bg-darkBlue text-similWhite">
+            <Modal.Header closeButton className='border border-0 buttonLogIn'>
             <Modal.Title>Book your appointment with {companyDetails.company_name}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className='border border-0 buttonLogIn d-flex justify-content-center'>
             <Form>
             {['radio'].map((radio) => (
                 <div key={`inline-${radio}`} className="mb-3">
@@ -248,7 +302,7 @@ function ExhibitorProfile(){
                     value="28.06.2024"
                     onChange={handleInputChange}
                 />
-                <Form.Select aria-label="Default select example" name="time" onChange={handleInputChange}>
+                <Form.Select aria-label="Default select example" name="time" onChange={handleInputChange} className="mt-2">
                     <option>Select the time</option>
                     {['09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '14:00-15:00', '15:00-16:00', '16:00-17:00', '18:00-19:00'].map((timeSlot) => {
                         const appointmentExists = allAppointments.some(appointment => 
@@ -266,8 +320,8 @@ function ExhibitorProfile(){
             ))}
             </Form>
             </Modal.Body>
-            <Modal.Footer>
-            <Button variant="primary" onClick={handleSaveChanges}>
+            <Modal.Footer className='border border-0 buttonLogIn'>
+            <Button variant="primary" onClick={handleSaveChanges} className='bg-darkBlue border border-0'>
                 Save Changes
             </Button>
             </Modal.Footer>

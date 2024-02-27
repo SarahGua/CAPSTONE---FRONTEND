@@ -1,5 +1,5 @@
 body {
-  background-color: #070f2b;
+  background-color: #0f151d;
 }
 
 h1 {
@@ -7,16 +7,21 @@ h1 {
 }
 
 .buttonLogIn {
-  background: rgb(60, 141, 226) !important;
-  background: linear-gradient(107deg, #9290c3 7%, #535c91 83%) !important;
+  background-color: #105981;
 }
 
 .bg-darkBlue {
-  background-color: #070f2b !important;
+  background-color: #0f151d !important;
+}
+
+.bgImg-home {
+  background-image: url("Img/imgBackgroundHome.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .h-15 {
-  width: 15%;
+  width: 10%;
 }
 
 .bi {
@@ -30,4 +35,17 @@ h1 {
 
 .card-clicked {
   border-color: darkBlue !important;
+}
+
+.logo-border {
+  width: 10%;
+}
+
+.font-8 {
+  font-size: 2em;
+  text-align: center;
+}
+
+.text-similWhite {
+  color: #e1e1da;
 }

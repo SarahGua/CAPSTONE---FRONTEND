@@ -17,7 +17,6 @@ function NavBarComp(){
                                 <Link href="#agenda" className='text-light text-decoration-none' to="/agenda">Agenda</Link>
                             {/* </Col>
                             <Col className=''> */}
-                                <Link href="#wishList" className='text-light text-decoration-none' to="/wish">Whish List</Link>
                                 <Link href="#myprofilet" className='text-light text-decoration-none' to="/myprofile">Profile</Link>
                             {/* </Col>
                         </Row> */}

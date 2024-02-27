@@ -77,7 +77,7 @@ function RegisterComp(){
                 <Col>
                     <Form onSubmit={handleSubmit}>
                     {['radio'].map((radio) => (
-                        <div key={`inline-${radio}`} className="mb-3 d-flex justify-content-around mt-5">
+                        <div key={`inline-${radio}`} className="mb-3 d-flex justify-content-center mt-5">
                         <Form.Check
                             inline
                             label="Exhibitor"
@@ -102,8 +102,9 @@ function RegisterComp(){
                         />
                         </div>
                     ))}
-                        <Row className="mb-3">
-                            <Col>
+
+                        <Row className='d-flex justify-content-center'>
+                            <Col className='col-6'>
                             <FormGroup>
                                 <FormLabel className='text-white'>Name</FormLabel>
                                 <Form.Control 
@@ -116,7 +117,10 @@ function RegisterComp(){
                                 />                
                             </FormGroup>
                             </Col>
-                            <Col>
+                        </Row>
+
+                        <Row className='d-flex justify-content-center mt-3'>
+                            <Col className='col-6'>
                             <FormGroup>
                                 <FormLabel className='text-white'>Surname</FormLabel>
                                 <Form.Control 
@@ -131,27 +135,30 @@ function RegisterComp(){
                             </Col>
                         </Row>
 
-                        <Row className="mb-3 text-white">
-                            <Col>
+                        <Row className='d-flex justify-content-center mt-3'>
+                            <Col className='col-6'>
                             <FormGroup>
-                                <FormLabel>Phone number</FormLabel>
+                                <FormLabel className='text-white'>Phone number</FormLabel>
                                 <Form.Control 
                                 type="text" 
                                 name='phone_number'
-                                placeholder="Phone number" 
+                                placeholder="+39 333 3333333" 
                                 value={register.phone_number} 
                                 onChange={handleChange}
                                 required
                                 />                
                             </FormGroup>
                             </Col>
-                            <Col>
-                            <Form.Group className="mb-3 text-white" controlId="formBasicEmail">
+                        </Row>
+
+                        <Row className='d-flex justify-content-center mt-3'>
+                            <Col className='col-6'>
+                            <Form.Group className=" text-white" controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control 
                                 type="email"
                                 name='email'
-                                placeholder="Enter email" 
+                                placeholder="example@example.com" 
                                 value={register.email} 
                                 onChange={handleChange}
                                 required
@@ -160,14 +167,14 @@ function RegisterComp(){
                             </Col>
                         </Row>
 
-                        <Row className='d-flex justify-content-center'>
+                        <Row className='d-flex justify-content-center mt-3'>
                             <Col className='col-6'>
                             <Form.Group className="mb-3 text-white" controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control 
                                 type="password" 
                                 name='password'
-                                placeholder="Password" 
+                                placeholder="*********" 
                                 value={register.password} 
                                 onChange={handleChange}
                                 required
@@ -261,7 +268,7 @@ function RegisterComp(){
                         <Row className='d-flex justify-content-center my-3'>
                             <Col className='col-4 d-flex justify-content-center'>
 
-                                    <Button variant="primary" type="submit" 
+                                    <Button variant="primary" type="submit" className='border border-lightn bg-transparent border-3' 
                                     >
                                     Register
                                     </Button>

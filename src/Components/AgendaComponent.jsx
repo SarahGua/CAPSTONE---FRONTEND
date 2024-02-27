@@ -135,7 +135,7 @@ function AgendaComp(){
                     }
                 </Row>
                 ) : (
-                    <Row className="mt-5">
+                    <Row className="mt-5 d-flex justify-content-center">
                     {
                         appointments
                         .filter(app => app.exhibitor.id === user.id)
