@@ -162,7 +162,7 @@ function ExhibitorProfile(){
 
     return(
         <Container>
-        <NavBarComp />
+        <NavBarComp/>
         {/* <Row className="d-flex justify-content-center">
             <Col className="col-md-10 col-sm-8 col-xs-6">
                 <Card className="bg-darkBlue border border-0">
@@ -214,7 +214,7 @@ function ExhibitorProfile(){
             </Col>
         </Row> */}
 
-        <Row className="text-similWhite d-flex align-items-center">
+        <Row className="text-similWhite d-flex align-items-center mt-5">
             <Col className="col-4 d-flex align-items-center">
                 <img src={companyDetails.img_url} className='rounded w-100 me-3' alt='profile-img'/>
             </Col>
@@ -254,6 +254,11 @@ function ExhibitorProfile(){
                                             PHONE NUMBER: {companyDetails.company_phone_number}
                                         </Card.Text>
                                     </Col>
+                                </Row>
+                                <Row>
+                                <Col className="d-flex justify-content-center mb-3">
+                                    <h2>See you at our booth {user.stand.position}</h2>
+                                </Col>
                                 </Row>
                             </Container>
                         </Card.Body>

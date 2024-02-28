@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Alert, Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
+import {Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
 import '../Home.css';
 import NavBarComp from "./NavBarComponent";
 
@@ -107,7 +107,7 @@ function StandBooking(){
     return (
         <Container>
             <NavBarComp />
-                <Card className="my-5">
+                <Card className="my-5 bg-darkBlue text-similWhite">
                     <Card.Body>
                         <Row>
                             {
@@ -118,11 +118,11 @@ function StandBooking(){
                                                 // className={`${buttonClick ? 'card-clicked' : ''}`}
                                                 // onClick={() => setButtonClick}
                                             >
-                                                    <Card.Body className="d-flex flex-column align-items-center">
+                                                    <Card.Body className="d-flex flex-column align-items-center bg-darkBlue text-similWhite rounded">
                                                         <Card.Title>Book your stand!</Card.Title>
                                                         <Card.Text className="d-flex flex-column align-items-center m-0"> 
                                                         <span>Dimensions: {stand.dimensions}</span>
-                                                        <span>Price: {stand.cost}€</span>
+                                                        <span>Price: {stand.cost}</span>
                                                         </Card.Text>
                                                         <Button variant={stand.status === 'AVAILABLE' ? "success" : "danger"} className="my-2" onClick={() => { console.log(stand.id); setSelectedStand(stand.id); handleShow(); }}>BOOK IT</Button>
                                                     </Card.Body>

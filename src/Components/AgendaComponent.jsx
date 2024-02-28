@@ -80,8 +80,11 @@ function AgendaComp(){
 
     useEffect(() => {
         getAppointments()
-        console.log("questi sono gli appointment", )
+        console.log("questi sono gli appointment", appointments)
+        console.log('user.id', user.id)
+        // console.log('client.id', appointments.client.id)
         getUserProfile()
+        console.log(user)
     }, []) 
 
 
@@ -96,15 +99,15 @@ function AgendaComp(){
 
             {/* cards */}
             {
-                user.id === "CLIENT" ? (
-                <Row className="mt-5">
+                user.role === "CLIENT" ? (
+                <Row className="mt-5 d-flex justify-content-center">
                     {
                         appointments
                         .filter(app => app.client.id === user.id)
                         .map((app) => (
-                            <Col className="col-12">             
-                            <Card className="d-flex flex-row">
-                                <Card.Img variant="top" src="https://brasaperuvian.com/cdn/shop/articles/iStock-468588494_2000x.jpg?v=1657045235" className="h-15" />
+                            <Col className="col-12 my-3" key={app.id}>             
+                            <Card className="d-flex flex-row bg-darkBlue text-white">
+                                <Card.Img variant="top" src={app.exhibitor.img_url} className="h-15" />
                                 <Card.Body className="d-flex justify-content-between">
                                     <Container className="d-flex justify-content-start align-items-center">
         
@@ -114,7 +117,7 @@ function AgendaComp(){
                                         <Card.Text className="m-0 me-3">
                                             {app.date}
                                         </Card.Text>
-                                        <Card.Text className="m-0">
+                                        <Card.Text className="m-0 me-3">
                                             {app.time}
                                         </Card.Text>
                                         <Card.Text>
@@ -128,8 +131,12 @@ function AgendaComp(){
                     )}
                     {
                         appointments.some(app => app.client.id === user.id) ? null : (
-                            <Col>
-                                <p>Non ci sono appuntamenti prenotati</p>
+                            <Col className="col-6">
+                                <Alert variant="info" className="buttonLogIn text-white border border-0 d-flex justify-content-center">
+                                    <p className="m-0">
+                                        No appintments scheduled!
+                                    </p>
+                                </Alert>
                             </Col>
                         )
                     }
@@ -140,9 +147,9 @@ function AgendaComp(){
                         appointments
                         .filter(app => app.exhibitor.id === user.id)
                         .map((app) => (
-                            <Col className="col-12">             
-                            <Card className="d-flex flex-row">
-                                <Card.Img variant="top" src="https://brasaperuvian.com/cdn/shop/articles/iStock-468588494_2000x.jpg?v=1657045235" className="h-15" />
+                            <Col className="col-12" key={app.id}>             
+                            <Card className="d-flex flex-row bg-darkBlue text-white">
+                                <Card.Img variant="top" src={app.client.img_url} className="h-15" />
                                 <Card.Body className="d-flex justify-content-between">
                                     <Container className="d-flex justify-content-start align-items-center">
         
@@ -152,7 +159,7 @@ function AgendaComp(){
                                         <Card.Text className="m-0 me-3">
                                             {app.date}
                                         </Card.Text>
-                                        <Card.Text className="m-0">
+                                        <Card.Text className="m-0 me-3">
                                             {app.time}
                                         </Card.Text>
                                         <Card.Text>
@@ -167,7 +174,7 @@ function AgendaComp(){
                     {
                         appointments.some(app => app.exhibitor.id === user.id) ? null : (
                             <Col className="col-6">
-                                    <Alert variant="info">
+                                    <Alert variant="info" className="buttonLogIn text-white border border-0 d-flex justify-content-center">
                                         <p className="m-0">
                                             No appintments scheduled!
                                         </p>

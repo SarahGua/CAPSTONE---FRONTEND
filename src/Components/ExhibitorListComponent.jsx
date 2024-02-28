@@ -118,7 +118,7 @@ function ExhibitorListComp(){
                     .filter(user => user.role === "EXHIBITOR" && user.name.toLowerCase().includes(searchValue.toLowerCase()))
                     .map(user => (
                         <Col className="col-12 my-3" key={user.id}>             
-                            <Card className="d-flex flex-row">
+                            <Card className="d-flex flex-row bg-darkBlue text-white">
                                 <Card.Img variant="top" src={user.img_url} className="h-15" />
                                 <Card.Body className="d-flex justify-content-between">
                                     <Container className="d-flex justify-content-start align-items-center">
@@ -128,13 +128,13 @@ function ExhibitorListComp(){
                                     <Container className="d-flex justify-content-end align-items-center">
                                         <Link to={`/profile/${user.id}`} className=" text-decoration-none">
                                             <Card.Text className="m-0 me-3" style={{color:'black'}}>
-                                                More Info
+                                            <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">More info</Button>
                                             </Card.Text>
                                         </Link>
-                                        <Card.Text className="m-0">
+                                        {/* <Card.Text className="m-0">
                                         <SuitHeartFill className="iconSave d-flex align-items-center" 
                                         />
-                                        </Card.Text>
+                                        </Card.Text> */}
                                     </Container>
                                 </Card.Body>
                             </Card>
@@ -193,7 +193,7 @@ function ExhibitorListComp(){
                         if (f.description === selectedField) {
                             return f.users.map((user) => (
                                 <Col className="col-12 my-3" key={user.id}>             
-                                    <Card className="d-flex flex-row">
+                                    <Card className="d-flex flex-row bg-darkBlue text-white">
                                         <Card.Img variant="top" src={user.img_url} className="h-15" />
                                         <Card.Body className="d-flex justify-content-between">
                                             <Container className="d-flex justify-content-start align-items-center">
@@ -202,12 +202,12 @@ function ExhibitorListComp(){
                                             <Container className="d-flex justify-content-end align-items-center">
                                                 <Link to="/profile" className=" text-decoration-none">
                                                     <Card.Text className="m-0 me-3" style={{color:'black'}}>
-                                                        More Info
+                                                    <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">More info</Button>
                                                     </Card.Text>
                                                 </Link>
-                                                <Card.Text className="m-0">
+                                                {/* <Card.Text className="m-0">
                                                     <SuitHeartFill className="iconSave d-flex align-items-center" />
-                                                </Card.Text>
+                                                </Card.Text> */}
                                             </Container>
                                         </Card.Body>
                                     </Card>

@@ -200,81 +200,86 @@ function Profile(){
     return (
         <Container>
             <NavBarComp />
-            <Card>
-                <Card.Body>
+            <Card className="border border-0">
+                <Card.Body className="bg-darkBlue text-similWhite ">
                     <div className="d-flex align-items-center justify-content-center mb-5 mt-3">
                     <img src={user.img_url} className='rounded w-25 me-3' alt='profile-img'/>
                     <Card.Title>{user.name}</Card.Title>
                     </div>
                     <Card.Text>
-                        <Card border="info">
-                            <Card.Body>
+                        <Card className="border border-0">
+                            <Card.Body className="bg-darkBlue text-similWhite">
                                 <Row className="mb-5">
                                 <h3 className="mb-4">Personal information</h3>
                                     <Col>
-                                        Name: {user.name}
+                                        NAME: {user.name}
                                     </Col>
                                     <Col>
-                                        Surname: {user.surname}
+                                        SURNAME: {user.surname}
                                     </Col>
                                 </Row>
                                 <Row className="mb-5">
                                     <Col>
-                                        Email: {user.email}
+                                        EMAIL: {user.email}
                                     </Col>
                                     <Col>
-                                        Phone number: {user.phone_number}
+                                        PHONE NUMBER: {user.phone_number}
                                     </Col>
                                 </Row>
                             </Card.Body>
                         </Card>
                             {user && user.role === 'EXHIBITOR' && (
-                                                    <Card.Text>
-                                                        <Card border="info">
-                                                            <Card.Body>
+                                                    <Card.Text >
+                                                        <Card className="border border-0">
+                                                            <Card.Body className="bg-darkBlue text-similWhite">
                                                                 <Row className="mb-5">
                                                                 <h3 className="mb-4">Company information</h3>
                                                                     <Col>
-                                                                        Company name: {user.company_name}
+                                                                        COMPANY NAME: {user.company_name}
                                                                     </Col>
                                                                     <Col>
-                                                                        Company email: {user.company_email}
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className="mb-5">
-                                                                    <Col>
-                                                                        Company phone number: {user.company_phone_number}
-                                                                    </Col>
-                                                                    <Col>
-                                                                        Company complete address: {user.address}
+                                                                        COMPANY EMAIL: {user.company_email}
                                                                     </Col>
                                                                 </Row>
                                                                 <Row className="mb-5">
                                                                     <Col>
-                                                                        Company VAT: {user.vat}
+                                                                        COMPANY PHONE NUMBER: {user.company_phone_number}
                                                                     </Col>
                                                                     <Col>
-                                                                    Field: {field.map((f) => {
+                                                                        COMPANY COMPLETE ADDRESS: {user.address}
+                                                                    </Col>
+                                                                </Row>
+                                                                <Row className="mb-5">
+                                                                    <Col>
+                                                                        VAT: {user.vat}
+                                                                    </Col>
+                                                                    <Col>
+                                                                    FIELD: {field.map((f) => {
                                                                         const userInField = f.users.find(fieldUser => fieldUser.id === user.id);
                                                                         return userInField ? f.description : null;
                                                                     })}
                                                                     </Col>
                                                                 </Row> 
+                                                                <Row>
+                                                                    <Col>
+                                                                    STAND: {user.stand.position}
+                                                                    </Col>
+                                                                </Row>
                                                             </Card.Body>
                                                         </Card>
                                                     </Card.Text>
                             )}
                                                             <Row className="mb-3">
                                     <Col className="d-flex flex-column align-items-center">
-                                        <Button variant="secondary" onClick={handleShow}>Modify your profile</Button>
+                                        <Button variant="secondary" onClick={handleShow} className="border border-lightn bg-transparent border-3 text-white mb-3">Modify your profile</Button>
                                         {
                                             user && user.role === 'EXHIBITOR' ? (
                                                 <Link to={`/standBooking`}>                                               
-                                                    <Button variant="info" className="mb-2">Book your stand!</Button>
+                                                    <Button variant="info" className="mb-2 border border-lightn bg-transparent border-3 text-white">Book your stand!</Button>
                                                 </Link>
                                             ) : (
                                                 <Link to="/ticket">                                               
-                                                    <Button variant="info" className="mb-2">Book your ticket!</Button>
+                                                    <Button variant="info" className="mb-2 border border-lightn bg-transparent border-3 text-white">Book your ticket!</Button>
                                                 </Link>
                                             )
                                         }

@@ -8,7 +8,7 @@ function Ticket(){
 
     const [user, setUser] = useState([])
 
-    const [availableTickets, setAvailableTickets] = useState(10)
+    const [availableTickets, setAvailableTickets] = useState(0)
 
     const handleIncrement = () => {
         setNumTickets(prevNumTickets => prevNumTickets + 1);
@@ -45,14 +45,37 @@ function Ticket(){
         .catch((err) => console.log(err, "errore"))
     }
 
+    const getAvailableTickets = () => {
+        const token = localStorage.getItem('token');
+
+        fetch(process.env.REACT_APP_BE_URL + '/ticket/available', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+            if(res.ok){
+                return res.json();
+            } else {
+                throw new Error('Errore nel recupero dati');
+            }
+        })
+        .then((data) => {
+            console.log(data)
+            setAvailableTickets(data);
+        })
+        .catch((err) => console.log(err, "errore"));
+    }
+
     const bookTickets = () => {
-        const token = localStorage.getItem('token')
-
+        const token = localStorage.getItem('token');
         const ticketData = {
-            clientId: user.id
-        }
+            clientId: user.id,
+            
+        };
 
-        fetch(process.env.REACT_APP_BE_URL + '/ticket', {
+        return fetch(process.env.REACT_APP_BE_URL + '/ticket', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -61,34 +84,45 @@ function Ticket(){
             body: JSON.stringify(ticketData)
         })
         .then((res) => {
-            if(res.ok){
-                return res.json()
+            if (res.ok) {
+                return res.json();
             } else {
-                throw new Error("errore nella fetch")
+                throw new Error("Errore nella fetch");
             }
         })
         .then((data) => {
-            console.log('biglietti oooook')
-            setAvailableTickets(prevAvailableTickets => prevAvailableTickets - numTickets)
+            console.log('Biglietti prenotati con successo');
+            // Dopo la prenotazione, ottieni nuovamente il numero attuale di biglietti disponibili dal backend
+            getAvailableTickets()
         })
-        .catch((e) => {
-            console.log(e)
-        })
-    }  
-    
+        .catch((error) => {
+            console.error('Errore durante la prenotazione dei biglietti:', error);
+        });
+    }
+
     const handleBooking = () => {
-        if(numTickets <= availableTickets){
-            for(let i = 0; i < numTickets; i++){
-                bookTickets()
+        if (numTickets <= availableTickets) {
+            // Creare un array di promesse per le chiamate bookTickets()
+            const bookingPromises = [];
+            for (let i = 0; i < numTickets; i++) {
+                bookingPromises.push(bookTickets());
             }
+            // Eseguire le promesse in sequenza
+            Promise.all(bookingPromises)
+                .then(() => {
+                    console.log('Tutte le prenotazioni sono state completate con successo.');
+                })
+                .catch((error) => {
+                    console.error('Si è verificato un errore durante la prenotazione:', error);
+                });
         } else {
-            console.log('erroreeee')
+            console.log('Errore: non ci sono abbastanza biglietti disponibili.');
         }
     }
-        
 
     useEffect(() => {
         getUserProfile()
+        getAvailableTickets()
     }, [])
 
 
@@ -96,9 +130,9 @@ function Ticket(){
         <Container>
             <NavBarComp />
                 <Card>
-                    <Card.Body className="d-flex flex-column align-items-center">
-                        <Card.Title>Book your tickets!!</Card.Title>
-                        <Card.Text className="d-flex flex-colummn align-items-center">
+                    <Card.Body className="d-flex flex-column align-items-center bg-darkBlue text-white">
+                        <Card.Title className="fs-1">Book your tickets!!</Card.Title>
+                        <Card.Text className="d-flex flex-colummn align-items-center flex-column">
                             
                                 <span>Your tickets will be available at the user desk inside the exhibition.</span>
                                 {availableTickets > 1 ? (
@@ -109,12 +143,13 @@ function Ticket(){
                             
                         </Card.Text>
                         <div>
-                            <Button variant="primary" onClick={handleDecrement}>-</Button>
-                            <span>{numTickets}</span>
-                            <Button variant="primary" onClick={handleIncrement}>+</Button>
+                            <Button variant="primary" onClick={handleDecrement} className="border border-lightn bg-transparent border-3">-</Button>
+                            <span className="mx-2">{numTickets}</span>
+                            <Button variant="primary" onClick={handleIncrement} className="border border-lightn bg-transparent border-3">+</Button>
                         </div>
-                        <Button variant="primary" className="mt-3" onClick={handleBooking} disabled={availableTickets ===0}>Book tickets</Button>
+                        <Button variant="primary" className="mt-3 border border-lightn bg-transparent border-3" onClick={handleBooking} disabled={availableTickets === 0}>Book tickets</Button>
                     </Card.Body>
+
                 </Card>
         </Container>
     )
