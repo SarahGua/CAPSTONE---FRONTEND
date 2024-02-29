@@ -1,4 +1,4 @@
-import { Button, Card, Container } from "react-bootstrap"
+import { Button, Card, Container, Modal } from "react-bootstrap"
 import NavBarComp from "./NavBarComponent"
 import { useEffect, useState } from "react"
 
@@ -9,6 +9,11 @@ function Ticket(){
     const [user, setUser] = useState([])
 
     const [availableTickets, setAvailableTickets] = useState(0)
+
+    const [show, setShow] = useState(false)
+
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow(true)
 
     const handleIncrement = () => {
         setNumTickets(prevNumTickets => prevNumTickets + 1);
@@ -48,7 +53,7 @@ function Ticket(){
     const getAvailableTickets = () => {
         const token = localStorage.getItem('token');
 
-        fetch(process.env.REACT_APP_BE_URL + '/ticket/available', {
+        fetch(process.env.REACT_APP_BE_URL + '/ticket/availableTickets', {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -70,12 +75,14 @@ function Ticket(){
 
     const bookTickets = () => {
         const token = localStorage.getItem('token');
+        console.log('ecco il token:', token)
         const ticketData = {
             clientId: user.id,
-            
+            quantity: numTickets
         };
+        console.log('ecco i ticketData:', ticketData)
 
-        return fetch(process.env.REACT_APP_BE_URL + '/ticket', {
+        fetch(process.env.REACT_APP_BE_URL + '/ticket/book', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -85,6 +92,7 @@ function Ticket(){
         })
         .then((res) => {
             if (res.ok) {
+                console.log(res)
                 return res.json();
             } else {
                 throw new Error("Errore nella fetch");
@@ -92,32 +100,13 @@ function Ticket(){
         })
         .then((data) => {
             console.log('Biglietti prenotati con successo');
-            // Dopo la prenotazione, ottieni nuovamente il numero attuale di biglietti disponibili dal backend
             getAvailableTickets()
+            handleShow()
         })
         .catch((error) => {
             console.error('Errore durante la prenotazione dei biglietti:', error);
+            console.log(error)
         });
-    }
-
-    const handleBooking = () => {
-        if (numTickets <= availableTickets) {
-            // Creare un array di promesse per le chiamate bookTickets()
-            const bookingPromises = [];
-            for (let i = 0; i < numTickets; i++) {
-                bookingPromises.push(bookTickets());
-            }
-            // Eseguire le promesse in sequenza
-            Promise.all(bookingPromises)
-                .then(() => {
-                    console.log('Tutte le prenotazioni sono state completate con successo.');
-                })
-                .catch((error) => {
-                    console.error('Si è verificato un errore durante la prenotazione:', error);
-                });
-        } else {
-            console.log('Errore: non ci sono abbastanza biglietti disponibili.');
-        }
     }
 
     useEffect(() => {
@@ -130,7 +119,7 @@ function Ticket(){
         <Container>
             <NavBarComp />
                 <Card>
-                    <Card.Body className="d-flex flex-column align-items-center bg-darkBlue text-white">
+                    <Card.Body className="d-flex flex-column align-items-center bg-darkBlue text-white rounded">
                         <Card.Title className="fs-1">Book your tickets!!</Card.Title>
                         <Card.Text className="d-flex flex-colummn align-items-center flex-column">
                             
@@ -147,10 +136,21 @@ function Ticket(){
                             <span className="mx-2">{numTickets}</span>
                             <Button variant="primary" onClick={handleIncrement} className="border border-lightn bg-transparent border-3">+</Button>
                         </div>
-                        <Button variant="primary" className="mt-3 border border-lightn bg-transparent border-3" onClick={handleBooking} disabled={availableTickets === 0}>Book tickets</Button>
+                        <Button variant="primary" className="mt-3 border border-lightn bg-transparent border-3" onClick={bookTickets} disabled={availableTickets === 0}>Book tickets</Button>
                     </Card.Body>
-
                 </Card>
+
+                <Modal show={show} onHide={handleClose} className='bg-darkBlue text-white'>
+                    <Modal.Header closeButton className='border border-0 buttonLogIn'>
+                    <Modal.Title>Tickets booked</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className='border border-0 buttonLogIn'>At your arrival go to the help desks to get your tickets and show this code: {user.id}</Modal.Body>
+                    <Modal.Footer className='border border-0 buttonLogIn'>         
+                    <Button variant="primary" className='bg-darkBlue border border-0' onClick={handleClose}>
+                        Got it
+                    </Button>
+                </Modal.Footer>
+                </Modal>
         </Container>
     )
 }

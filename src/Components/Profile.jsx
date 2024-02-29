@@ -262,7 +262,7 @@ function Profile(){
                                                                 </Row> 
                                                                 <Row>
                                                                     <Col>
-                                                                    STAND: {user.stand.position}
+                                                                    STAND: {user.stand ? user.stand.position : 'to be selected'}
                                                                     </Col>
                                                                 </Row>
                                                             </Card.Body>
@@ -290,11 +290,11 @@ function Profile(){
             </Card>
                 {/* -------------------------- card per espositore ------------------------- */}
                 {/* modale per modificare profilo */}
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
+                <Modal show={show} onHide={handleClose} className="bg-darkBlue text-similWhite">
+                    <Modal.Header closeButton className='border border-0 buttonLogIn'>
                         <Modal.Title>You want to modify your profile?</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body className='border border-0 buttonLogIn'>
                     <Form>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Name</Form.Label>
@@ -424,8 +424,8 @@ function Profile(){
                         )}
 
                     </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="primary" onClick={() => {handleSaveChanges()}}>
+                        <Modal.Footer className='border border-0 buttonLogIn'>
+                            <Button variant="primary" onClick={() => {handleSaveChanges()}} className='bg-darkBlue border border-0'>
                                 Save Changes
                             </Button>
                         </Modal.Footer>

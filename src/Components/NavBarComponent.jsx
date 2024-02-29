@@ -11,6 +11,7 @@ function NavBarComp(){
                     <Nav className="d-flex justify-content-evenly w-100">
                         {/* <Row className='w-100'>
                             <Col className=''> */}
+                                <Link href="#home" className='text-light text-decoration-none' to="/welcome">Home</Link>
                                 <Link href="#exhibitorList" className='text-light text-decoration-none' to="/list">Exhibitor List</Link>
                             {/* </Col>
                             <Col className=''> */}

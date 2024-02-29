@@ -74,6 +74,7 @@ function StandBooking(){
         const token = localStorage.getItem('token')
         console.log(token)
         console.log('standId:', standId)
+        const userId = user.id
 
         fetch(process.env.REACT_APP_BE_URL + `/stand/bookstand/${standId}`, {
             method: 'POST',
@@ -81,7 +82,7 @@ function StandBooking(){
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(user.id)
+            body: JSON.stringify(userId)
         })
         .then((res) => {
             if(res.ok){
@@ -114,10 +115,7 @@ function StandBooking(){
                                 standList.map((stand) => {
                                     return (
                                         <Col className="col-sm-12 col-md-6 col-lg-3 my-2" key={stand.id}>
-                                            <Card
-                                                // className={`${buttonClick ? 'card-clicked' : ''}`}
-                                                // onClick={() => setButtonClick}
-                                            >
+                                            <Card>
                                                     <Card.Body className="d-flex flex-column align-items-center bg-darkBlue text-similWhite rounded">
                                                         <Card.Title>Book your stand!</Card.Title>
                                                         <Card.Text className="d-flex flex-column align-items-center m-0"> 
@@ -146,17 +144,6 @@ function StandBooking(){
                                 Confirm
                             </Button>
                         </Modal.Footer>
-                        {/* ------------------------Alert------------------------------ */}
-                        {/* {alertShow === true && 
-                            <Alert variant="success" onClose={() => alertShow(null)} dismissible>
-                                Stand booked successfully!
-                            </Alert>
-                        }
-                        {alertShow === false && 
-                            <Alert variant="danger" onClose={() => alertShow(null)} dismissible>
-                                Error booking the stand!
-                            </Alert>
-                        } */}
                 </Modal>
 
         </Container>

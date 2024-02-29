@@ -3,7 +3,6 @@ import NavBarComp from "./NavBarComponent"
 import Form from 'react-bootstrap/Form';
 import '../Home.css';
 import { Link } from "react-router-dom";
-import { SuitHeartFill } from 'react-bootstrap-icons';
 import { useEffect, useState } from "react";
 
 
@@ -115,7 +114,7 @@ function ExhibitorListComp(){
             <Row className="mt-5">
                 {
                     searchValue && users
-                    .filter(user => user.role === "EXHIBITOR" && user.name.toLowerCase().includes(searchValue.toLowerCase()))
+                    .filter(user => user.role === "EXHIBITOR" && user.company_name.toLowerCase().includes(searchValue.toLowerCase()))
                     .map(user => (
                         <Col className="col-12 my-3" key={user.id}>             
                             <Card className="d-flex flex-row bg-darkBlue text-white">
@@ -131,20 +130,9 @@ function ExhibitorListComp(){
                                             <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">More info</Button>
                                             </Card.Text>
                                         </Link>
-                                        {/* <Card.Text className="m-0">
-                                        <SuitHeartFill className="iconSave d-flex align-items-center" 
-                                        />
-                                        </Card.Text> */}
                                     </Container>
                                 </Card.Body>
                             </Card>
-                            {/* <Card>
-                                <Card.Img variant="top" src={user.img_url} />
-                                <Card.Body>
-                                    <Card.Title>{user.company_name}</Card.Title>
-                                    <Button variant="primary">More info</Button>
-                                </Card.Body>
-                            </Card> */}
                         </Col>
                     ))
                 }
@@ -152,7 +140,7 @@ function ExhibitorListComp(){
                     !searchValue && !selectedField &&(
                         users.map((user) => {
                             if(user.role === "EXHIBITOR"){
-                                return (
+                                return (                                   
                                     <Col className="col-12 my-3" key={user.id}>             
                                     <Card className="d-flex flex-row bg-darkBlue text-white">
                                         <Card.Img variant="top" src={user.img_url} className="h-15" />
@@ -163,26 +151,14 @@ function ExhibitorListComp(){
                                             </Container>
                                             <Container className="d-flex justify-content-end align-items-center">
                                                 <Link to={`/profile/${user.id}`} className=" text-decoration-none">
-                                                    {/* <Card.Text className="m-0 me-3" style={{color:'black'}}>
-                                                        More Info
-                                                    </Card.Text> */}
                                                     <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">More info</Button>
                                                 </Link>
                                                 <Card.Text className="m-0">
-                                                {/* <SuitHeartFill className="iconSave d-flex align-items-center" 
-                                                /> */}
                                                 </Card.Text>
                                             </Container>
                                         </Card.Body>
                                     </Card>
-                                    {/* <Card className="h-100 border border-0">
-                                        <Card.Img variant="top" src={user.img_url}/>
-                                        <Card.Body className="d-flex flex-column justify-content-around align-items-center bg-darkBlue ">
-                                            <Card.Title className="text-white">{user.company_name}</Card.Title>
-                                            <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">More info</Button>
-                                        </Card.Body>
-                                    </Card> */}
-                                </Col>
+                                </Col>                              
                                 )
                             }
                         })
@@ -205,9 +181,6 @@ function ExhibitorListComp(){
                                                     <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">More info</Button>
                                                     </Card.Text>
                                                 </Link>
-                                                {/* <Card.Text className="m-0">
-                                                    <SuitHeartFill className="iconSave d-flex align-items-center" />
-                                                </Card.Text> */}
                                             </Container>
                                         </Card.Body>
                                     </Card>

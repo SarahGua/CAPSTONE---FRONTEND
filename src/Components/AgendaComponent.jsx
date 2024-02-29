@@ -1,4 +1,4 @@
-import { Alert, Card, Col, Container, Row } from "react-bootstrap"
+import { Alert, Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
 import NavBarComp from "./NavBarComponent"
 import '../Home.css';
 import { useEffect, useState } from "react";
@@ -6,9 +6,16 @@ import { Trash3 } from "react-bootstrap-icons"
 
 function AgendaComp(){
 
+    const [appointmentToDelete, setAppointmentToDelete] = useState(null);
+
     const [appointments, setAppointments] = useState([])
 
     const [user, setUser] = useState([])
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const getUserProfile = () => {
         const token = localStorage.getItem('token')
@@ -58,9 +65,35 @@ function AgendaComp(){
         .catch((e) => console.log('questo è l errore', e)) 
     }
 
-    const handleDeleteAppointment = (id) => {
-        const token = localStorage.getItem('token')
+    // const handleDeleteAppointment = (id) => {
+    //     const token = localStorage.getItem('token')
 
+    //     fetch(`${process.env.REACT_APP_BE_URL}/appointment/${id}`, {
+    //         method: 'DELETE',
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`,
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
+    //     .then((res) => {
+    //         if(res.ok){
+    //             getAppointments();
+    //         } else {
+    //             throw new Error('Errore durante l\'eliminazione dell\'appuntamento')
+    //         }
+    //     })
+    //     .catch((err) => console.log(err, "errore"))
+    // }
+
+    const handleDeleteAppointment = (id) => {
+        setAppointmentToDelete(id); 
+        handleShow(); 
+    }
+
+    const handleDeleteConfirmed = () => {
+        const token = localStorage.getItem('token');
+        const id = appointmentToDelete
+    
         fetch(`${process.env.REACT_APP_BE_URL}/appointment/${id}`, {
             method: 'DELETE',
             headers: {
@@ -75,18 +108,16 @@ function AgendaComp(){
                 throw new Error('Errore durante l\'eliminazione dell\'appuntamento')
             }
         })
-        .catch((err) => console.log(err, "errore"))
+        .catch((err) => console.log(err, "errore"));
     }
 
     useEffect(() => {
         getAppointments()
         console.log("questi sono gli appointment", appointments)
         console.log('user.id', user.id)
-        // console.log('client.id', appointments.client.id)
         getUserProfile()
         console.log(user)
     }, []) 
-
 
     return (
         <Container>
@@ -153,7 +184,7 @@ function AgendaComp(){
                                 <Card.Body className="d-flex justify-content-between">
                                     <Container className="d-flex justify-content-start align-items-center">
         
-                                    <Card.Title className="m-0">{app.client.name}</Card.Title>
+                                    <Card.Title className="m-0">{`${app.client.name}, ${app.client.surname}`}</Card.Title>
                                     </Container>
                                     <Container className="d-flex justify-content-end align-items-center">
                                         <Card.Text className="m-0 me-3">
@@ -185,6 +216,21 @@ function AgendaComp(){
                 </Row>
                 )
             }
+
+            <Modal show={show} onHide={handleClose} className="bg-darkBlue text-similWhite">
+                <Modal.Header closeButton className='border border-0 buttonLogIn'>
+                    <Modal.Title>Do you want to delete this appointment?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className='border border-0 buttonLogIn'>Are you sure you want to delete this appointment?</Modal.Body>
+                <Modal.Footer className='border border-0 buttonLogIn'>
+                    <Button variant="secondary" onClick={() => {setAppointmentToDelete(null); handleClose();}}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={() => {handleClose(); handleDeleteConfirmed()}} className='bg-darkBlue border border-0'>
+                        Confirm Delete
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     )
 }

@@ -257,7 +257,7 @@ function ExhibitorProfile(){
                                 </Row>
                                 <Row>
                                 <Col className="d-flex justify-content-center mb-3">
-                                    <h2>See you at our booth {user.stand.position}</h2>
+                                    <h2>{companyDetails.stand ? `meet us at our booth ${companyDetails.stand.position}`  : 'booth to be defined'}</h2>
                                 </Col>
                                 </Row>
                             </Container>
