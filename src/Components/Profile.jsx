@@ -16,7 +16,11 @@ function Profile(){
     const [selectedField, setSelectedField] = useState('')
 
     const handleSelectedField = (e) => {
-        setSelectedField(e.target.value)
+        setSelectedField(e.target.value);
+        setFormData(prevState => ({
+            ...prevState,
+            selectedField: e.target.value
+        }));
     }
     
     useEffect(() => {
@@ -107,9 +111,18 @@ function Profile(){
     }, [user]);
 
     const handleChange = (e) => {
-        setFormData({...formData, 
-        [e.target.name]: e.target.value
-        })
+        const { name, value } = e.target;
+        if (name.startsWith('company_')) {
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
     }
 
     const handleSaveChanges = () => {
@@ -133,6 +146,7 @@ function Profile(){
                 if(res.ok){
                     console.log('User added to field successfully');
                     getUserProfile();
+                    getField()
                     handleClose();
                 } else {
                     throw new Error('Error while saving data');
@@ -156,13 +170,22 @@ function Profile(){
         .then((res) => {
             if(res.ok){
                 console.log('ecco lo user:', user)
-                getUserProfile();
-                handleClose();
+                getUserProfile()
+                handleClose()
             } else {
-                throw new Error('Errore durante il salvataggio dei dati');
+                throw new Error('Errore durante il salvataggio dei dati')
             }
         })
-        .catch((err) => console.log(err));
+        .then((data) =>  {
+            console.log('Immagine caricata con successo', data)
+            setUser(prevUser => ({
+                ...prevUser,
+                img_url: data
+            }))
+            getUserProfile()
+            handleClose()
+        })
+        .catch((err) => console.log(err))
 
 
         if(file){
@@ -190,11 +213,8 @@ function Profile(){
                     img_url: data.url
                 }))
             })
-            // .then(() => {
-            // })
             .catch((e) => console.log('errore:', e))
         }
-        // window.location.reload()
     };
 
     return (

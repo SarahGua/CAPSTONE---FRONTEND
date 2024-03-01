@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
-import {Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
+import {Alert, Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
 import '../Home.css';
 import NavBarComp from "./NavBarComponent";
 
 function StandBooking(){
 
     const [standList, setStandList] = useState([])
+
+    const [bookingSuccess, setBookingSuccess] = useState(false);
 
     const [buttonClick, setButtonClick] = useState(false)
 
@@ -75,23 +77,25 @@ function StandBooking(){
         console.log(token)
         console.log('standId:', standId)
         const userId = user.id
+        console.log('questo è lo userId:', userId)
+        const dataToBeSent = {
+            userId: user.id,
+            standId: standId
+        }
 
         fetch(process.env.REACT_APP_BE_URL + `/stand/bookstand/${standId}`, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(userId)
+            body: JSON.stringify(dataToBeSent)
         })
         .then((res) => {
             if(res.ok){
-                // setAlertShow(true)
-                // setShow(true)
+                setBookingSuccess(true)
                 handleClose(); 
             } else {
-                // setAlertShow(false)
-                // setShow(true)
                 throw new Error('Errore nella prenotazione dello stand');
             }
         })
@@ -108,6 +112,13 @@ function StandBooking(){
     return (
         <Container>
             <NavBarComp />
+                            {/* -------------------alert success booking----------------- */}
+                            {
+                    bookingSuccess && 
+                <Alert className="d-flex justify-content-center">
+                Booth successfully booked. Go to your profile page to get all the info!
+                </Alert>
+                }
                 <Card className="my-5 bg-darkBlue text-similWhite">
                     <Card.Body>
                         <Row>
@@ -134,18 +145,17 @@ function StandBooking(){
                 </Card>
 
                 {/* ---------------------modale--------------------- */}
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
+                <Modal show={show} onHide={handleClose} className='bg-darkBlue text-white'>
+                    <Modal.Header closeButton className='border border-0 buttonLogIn'>
                     <Modal.Title>Are you sure yu want to book this stand?</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Click on confirm if you are sure!</Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="success" onClick={() => confirmBooking(selectedStand)}>
+                    <Modal.Body className='border border-0 buttonLogIn'>Click on confirm if you are sure!</Modal.Body>
+                        <Modal.Footer className='border border-0 buttonLogIn'>
+                            <Button variant="success" onClick={() => confirmBooking(selectedStand)} className='bg-darkBlue border border-0'>
                                 Confirm
                             </Button>
                         </Modal.Footer>
                 </Modal>
-
         </Container>
     )
 }

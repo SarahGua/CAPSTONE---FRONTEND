@@ -48,17 +48,6 @@ function WelcomeComp(){
             <Container className="vh-25">
                 <Row>
                     <Col className="d-flex justify-content-center">
-                        {/* <Carousel>
-                            <Carousel.Item >
-                                <img src={img1} alt="img1"></img>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img src={img2} alt="img1"></img>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img src={img3} alt="img1"></img>
-                            </Carousel.Item>
-                        </Carousel> */}
                     </Col>
                 </Row>
                 <Row className="d-flex align-items-center my-5">

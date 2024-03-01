@@ -1,4 +1,4 @@
-import { Button, Col, Container, FormGroup, FormLabel, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Container, FormGroup, FormLabel, Modal, Row } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 function RegisterComp(){  
 
-    
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const [register, setRegister] = useState({
         name: "",
         surname: "",
@@ -14,15 +18,12 @@ function RegisterComp(){
         password: "",
         phone_number: "",
         role: ""
-        // companyName: "",
-        // companyEmail: "",
-        // companyPhone: "",
-        // VAT: "",
-        // address: ""
     })
 
-    // eslint-disable-next-line no-unused-vars
+
     const [formValid, setFormValid] = useState(false)
+
+    const [registerSuccess, setRegisterSuccess] = useState(false)
 
     const navigate = useNavigate();
 
@@ -64,7 +65,9 @@ function RegisterComp(){
         })
         .then(data => {
             console.log(data)
-            navigate('/')
+            setRegisterSuccess(true)
+            handleShow()
+            // navigate('/')
         })
         .catch(e => {
             console.log('errore nella registrazione', e)
@@ -183,88 +186,6 @@ function RegisterComp(){
                             </Col>
                         </Row>
 
-                        {/* seconda parte del form riservata allo user con ruolo "exhibitor" */}
-{/* 
-                        {register.role === "Exhibitor" && (
-                            <>
-                            <h3>Company information</h3>
-                            
-                        <Row className="mb-3 text-white">
-                            <Col>
-                            <FormGroup>
-                                <FormLabel>Name</FormLabel>
-                                <Form.Control 
-                                type="text" 
-                                name='companyName'
-                                placeholder="Name" 
-                                value={register.companyName} 
-                                onChange={handleChange}
-                                required
-                                />                
-
-                            </FormGroup>
-                            </Col>
-                            <Col>
-                            <FormGroup>
-                                <FormLabel>VAT</FormLabel>
-                                <Form.Control 
-                                type="text" 
-                                name='VAT'
-                                placeholder="VAT" 
-                                value={register.VAT} 
-                                onChange={handleChange}
-                                required
-                                />                
-                            </FormGroup> 
-                            </Col>
-                        </Row>
-
-                        <Row className="mb-3 text-white">
-                            <Col>
-                            <FormGroup>
-                                <FormLabel>Phone number</FormLabel>
-                                <Form.Control 
-                                type="text" 
-                                name='companyPhone'
-                                placeholder="Phone number" 
-                                value={register.companyPhone} 
-                                onChange={handleChange}
-                                required
-                                />                
-                            </FormGroup>
-                            </Col>
-                            <Col>
-                            <Form.Group className="mb-3 text-white" controlId="formBasicCompanyEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control 
-                                type="email" 
-                                placeholder="Enter email" 
-                                value={register.companyEmail} 
-                                onChange={handleChange} 
-                                required
-                                />
-                            </Form.Group>   
-                            </Col>
-                        </Row>
-
-                        <Row className="mb-3 text-white">
-                            <Col>
-                            <FormGroup>
-                                <FormLabel>Complete address</FormLabel>
-                                <Form.Control 
-                                type="text" 
-                                name='address'
-                                placeholder="Street, street number, city, region, state" 
-                                value={register.address} 
-                                onChange={handleChange}
-                                required
-                                />                
-                            </FormGroup>
-                            </Col>
-                        </Row>
-                        </>
-                        )}  */}
-
                         <Row className='d-flex justify-content-center my-3'>
                             <Col className='col-4 d-flex justify-content-center'>
 
@@ -274,9 +195,28 @@ function RegisterComp(){
                                     </Button>
                             </Col>
                         </Row>
+
+                        {/* ------------------------modale------------------------ */}
+                        <Modal show={show} onHide={handleClose} className='bg-darkBlue text-white'>
+                            <Modal.Header closeButton className='border border-0 buttonLogIn'>
+                            <Modal.Title>User successfully registered!</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body className='border border-0 buttonLogIn'>Please, go to your profile page and complete it!</Modal.Body>
+                            <Modal.Footer className='border border-0 buttonLogIn'>
+                            <Button variant="primary" onClick={() => {
+                                handleClose(); 
+                                navigate('/'); 
+                            }} className='bg-darkBlue border border-0'>
+                                Got it
+                            </Button>
+                            </Modal.Footer>
+                        </Modal>
+
                     </Form>
                 </Col>
             </Row>
+
+
         </Container>
 
         
