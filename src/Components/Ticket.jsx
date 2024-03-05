@@ -1,6 +1,8 @@
-import { Button, Card, Container, Modal } from "react-bootstrap"
+import { Button, Card, Col, Container, Modal, Row } from "react-bootstrap"
 import NavBarComp from "./NavBarComponent"
 import { useEffect, useState } from "react"
+import img1 from "../Img/img1.jpg"
+import img3 from "../Img/img3.jpg"
 
 function Ticket(){
 
@@ -118,27 +120,48 @@ function Ticket(){
     return (
         <Container>
             <NavBarComp />
-                <Card>
-                    <Card.Body className="d-flex flex-column align-items-center bg-darkBlue text-white rounded">
-                        <Card.Title className="fs-1">Book your tickets!!</Card.Title>
-                        <Card.Text className="d-flex flex-colummn align-items-center flex-column">
-                            
-                                <span>Your tickets will be available at the user desk inside the exhibition.</span>
-                                {availableTickets > 1 ? (
-                                    <span>Hurry up! Only {availableTickets} tickets are available!</span>
-                                ) : (
-                                    <span>Oh no! No tickets available... Hope to see you next time!</span>
-                                )}
-                            
-                        </Card.Text>
-                        <div>
-                            <Button variant="primary" onClick={handleDecrement} className="border border-lightn bg-transparent border-3">-</Button>
-                            <span className="mx-2">{numTickets}</span>
-                            <Button variant="primary" onClick={handleIncrement} className="border border-lightn bg-transparent border-3">+</Button>
-                        </div>
-                        <Button variant="primary" className="mt-3 border border-lightn bg-transparent border-3" onClick={bookTickets} disabled={availableTickets === 0}>Book tickets</Button>
-                    </Card.Body>
-                </Card>
+            <Row style={{
+                backgroundImage: `url(${img3})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: `no-repeat`,
+                height: `20em`
+            }}>
+                <Col className="d-flex justify-content-center align-items-center">
+                    <h1 className="text-white">BOOK YOUR TICKETS HERE</h1>
+                </Col>
+            </Row>
+            <Row className="my-3 d-flex align-items-center">
+                <Col className="col-6 ps-0">
+                    <Card className="border border-0">
+                        <Card.Body className="d-flex flex-column align-items-center bg-darkBlue text-white">
+                            {/* <Card.Title className="fs-1 d-flex flex-column align-items-center"><p className="mb-0">BOOK YOUR</p><p>TICKETS HERE</p></Card.Title> */}
+                            <Card.Text className="d-flex flex-colummn align-items-center flex-column">
+                                    <span className="fs-3 mb-3">€30/ticket</span>
+                                    <span className="mb-1">Your tickets will be available at the user desk inside the exhibition.</span>
+                                    {availableTickets > 1 ? (
+                                        <span>Hurry up! Only {availableTickets} tickets are still available!</span>
+                                    ) : (
+                                        <span>Oh no! No tickets available... Hope to see you next time!</span>
+                                    )}
+                                
+                            </Card.Text>
+                            <div className="mt-3">
+                                <Button variant="primary" onClick={handleDecrement} className="border border-lightn bg-transparent border-3">-</Button>
+                                <span className="mx-2">{numTickets}</span>
+                                <Button variant="primary" onClick={handleIncrement} className="border border-lightn bg-transparent border-3">+</Button>
+                            </div>
+                            <Button variant="primary" className="mt-3 border border-lightn bg-transparent border-3" onClick={bookTickets} disabled={availableTickets === 0}>Book tickets</Button>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col style={{
+                backgroundImage: `url(${img1})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: `no-repeat`,
+                height: `20em`
+            }}>
+                </Col>
+            </Row>
 
                 <Modal show={show} onHide={handleClose} className='bg-darkBlue text-white'>
                     <Modal.Header closeButton className='border border-0 buttonLogIn'>

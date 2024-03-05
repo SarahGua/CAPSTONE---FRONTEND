@@ -224,7 +224,10 @@ function Profile(){
                 <Card.Body className="bg-darkBlue text-similWhite ">
                     <div className="d-flex align-items-center justify-content-center mb-5 mt-3">
                     <img src={user.img_url} className='rounded w-25 me-3' alt='profile-img'/>
-                    <Card.Title>{user.name}</Card.Title>
+                    <div className="d-flex flex-column align-items-center">
+                    <Card.Title className="fs-1">{user.name}</Card.Title>
+                    <Card.Title className="fs-1">{user.surname}</Card.Title>
+                    </div>
                     </div>
                     <Card.Text>
                         <Card className="border border-0">

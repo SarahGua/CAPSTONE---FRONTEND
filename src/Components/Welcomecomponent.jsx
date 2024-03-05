@@ -1,10 +1,6 @@
 import { Button, Col, Container, Row } from "react-bootstrap"
 import NavBarComp from "./NavBarComponent"
-import Carousel from 'react-bootstrap/Carousel';
 import img1 from '../Img/img1.jpg';
-import img2 from '../Img/img2.jpg';
-import img3 from '../Img/img3.jpg';
-import img4home from '../Img/img4home.jpg';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -51,10 +47,10 @@ function WelcomeComp(){
                     </Col>
                 </Row>
                 <Row className="d-flex align-items-center my-5">
-                    <Col>
+                    <Col className="fade-in-left">
                         <img src={img1} className="fluid w-100" alt="img1"></img>
                     </Col>
-                    <Col className="text-white p-6 font-monospace">
+                    <Col className="text-white p-6 font-monospace fade-in-right">
                         <p className="fs-5 lh-lg">Welcome to EVENTConnect, an online sourcing platform and knowledge hub created for the textile and garment industry. 
                             The platform enables buyers and sellers to be engaged before, during and after the physical exhibitions.
                             EVENTConnect brings the global community of textile industrialists and experts together to collaborate and transform the industry. 
@@ -67,11 +63,11 @@ function WelcomeComp(){
                         {
                             user.role === 'EXHIBITOR' ? (
                                 <Link to={`/standBooking`} className=" text-decoration-none">
-                                <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">Book your booth NOW!</Button>
+                                <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3 fade-in">Book your booth NOW!</Button>
                                 </Link>
                             ) : (
                                 <Link to={`/ticket`} className=" text-decoration-none">
-                                <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3">Book your tickets NOW!</Button>
+                                <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3 fade-in">Book your tickets NOW!</Button>
                                 </Link>
                             )
                         }

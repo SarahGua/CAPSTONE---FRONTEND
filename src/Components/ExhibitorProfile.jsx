@@ -220,51 +220,51 @@ function ExhibitorProfile(){
             </Col>
             <Col>
                 <Row>
-                    <Col className="col-12 d-flex justify-content-center">
+                    <Col className="col-12 d-flex justify-content-center my-5">
                         <h1>{companyDetails.company_name}</h1>
                     </Col>
                     <Col>
-                    <Card.Body >
-                        <Card.Title className="my-3">Information</Card.Title>
-                            <Container className="p-0">
-                                <Row>
+                    <Card.Body className="mt-5">
+                        <Card.Title className="my-3 d-flex justify-content-center fs-3">Information</Card.Title>
+                            <Container className="p-0 d-flex flex-column align-items-center">
+                                <Row className="mb-1">
                                     <Col className="d-flex flex-colummn align-items-center">
                                         <Card.Text className="m-0">
                                             NAME: {companyDetails.company_name}
                                         </Card.Text>
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="mb-1">
                                     <Col className="d-flex flex-colummn align-items-center">
                                         <Card.Text className="m-0">
                                             EMAIL: {companyDetails.company_email}
                                         </Card.Text>
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="mb-1">
                                     <Col className="d-flex flex-colummn align-items-center">
                                         <Card.Text className="m-0">
                                             ADDRESS: {companyDetails.address}
                                         </Card.Text>
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="mb-1">
                                     <Col className="d-flex flex-colummn align-items-center">
                                         <Card.Text className="m-0 mb-3">
                                             PHONE NUMBER: {companyDetails.company_phone_number}
                                         </Card.Text>
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="mt-5">
                                 <Col className="d-flex justify-content-center mb-3">
-                                    <h2>{companyDetails.stand ? `meet us at our booth ${companyDetails.stand.position}`  : 'booth to be defined'}</h2>
+                                    <h2>{companyDetails.stand ? `You can find us at our booth number ${companyDetails.stand.position}`  : 'booth to be defined'}</h2>
                                 </Col>
                                 </Row>
                             </Container>
                         </Card.Body>
                     </Col>
                 </Row>
-                <Row>
+                <Row className="mb-5">
                     <Col className="d-flex justify-content-center">
                         <Button variant="info" className="vh-25 border border-lightn bg-transparent border-3 text-white" onClick={handleShow}>Book an appointment!</Button>
                     </Col>
