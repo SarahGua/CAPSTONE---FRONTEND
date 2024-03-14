@@ -62,13 +62,13 @@ function HomeComp(){
                     <h6 className='text-white  m-0'>EventConnect</h6>
                 </Col>
             </Row>
-            <Row>
-                <Col className='text-white fw-bold font-8'>
-                    <h1>Transforming <br /> the World of Textile</h1>
+            <Row className='text-center my-5'>
+                <Col className='text-white fw-bold'>
+                    <h1>Welcome <br /> in the World of Textile</h1>
                 </Col>
 
             </Row>
-            <Row>
+            <Row className='mt-5'>
                 <Col className='d-flex justify-content-center'>
                     <Button variant="dark" className='d-flex border border-lightn bg-transparent border-3 px-5 rounded-pill' onClick={handleShow}>Log in</Button>
                 </Col>

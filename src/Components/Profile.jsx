@@ -215,7 +215,12 @@ function Profile(){
             })
             .catch((e) => console.log('errore:', e))
         }
-    };
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        window.location.href = '/'
+    }
 
     return (
         <Container>
@@ -232,20 +237,20 @@ function Profile(){
                     <Card.Text>
                         <Card className="border border-0">
                             <Card.Body className="bg-darkBlue text-similWhite">
-                                <Row className="mb-5">
-                                <h3 className="mb-4">Personal information</h3>
-                                    <Col>
+                                <Row className="mb-5 d-flex justify-content-center">
+                                    <Row className="d-flex justify-content-center">
+                                        <h3 className="mb-4 col-12 col-lg-6 d-flex justify-content-center">Personal information</h3>
+                                    </Row>
+                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1">
                                         NAME: {user.name}
                                     </Col>
-                                    <Col>
+                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1">
                                         SURNAME: {user.surname}
                                     </Col>
-                                </Row>
-                                <Row className="mb-5">
-                                    <Col>
+                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1">
                                         EMAIL: {user.email}
                                     </Col>
-                                    <Col>
+                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1">
                                         PHONE NUMBER: {user.phone_number}
                                     </Col>
                                 </Row>
@@ -255,36 +260,32 @@ function Profile(){
                                                     <Card.Text >
                                                         <Card className="border border-0">
                                                             <Card.Body className="bg-darkBlue text-similWhite">
-                                                                <Row className="mb-5">
-                                                                <h3 className="mb-4">Company information</h3>
-                                                                    <Col>
+                                                                <Row className="mb-5 d-flex justify-content-center">
+                                                                    <Row>
+                                                                        <h3 className="mb-4 col-12 col-lg-6 d-flex justify-content-center p-0">Company information</h3>
+                                                                    </Row>
+                                                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1">
                                                                         COMPANY NAME: {user.company_name}
                                                                     </Col>
-                                                                    <Col>
+                                                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1 text-center">
                                                                         COMPANY EMAIL: {user.company_email}
                                                                     </Col>
-                                                                </Row>
-                                                                <Row className="mb-5">
-                                                                    <Col>
+                                                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1 text-center">
                                                                         COMPANY PHONE NUMBER: {user.company_phone_number}
                                                                     </Col>
-                                                                    <Col>
+                                                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1 text-center">
                                                                         COMPANY COMPLETE ADDRESS: {user.address}
                                                                     </Col>
-                                                                </Row>
-                                                                <Row className="mb-5">
-                                                                    <Col>
+                                                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1">
                                                                         VAT: {user.vat}
                                                                     </Col>
-                                                                    <Col>
+                                                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1">
                                                                     FIELD: {field.map((f) => {
                                                                         const userInField = f.users.find(fieldUser => fieldUser.id === user.id);
                                                                         return userInField ? f.description : null;
                                                                     })}
                                                                     </Col>
-                                                                </Row> 
-                                                                <Row>
-                                                                    <Col>
+                                                                    <Col className="col-12 col-lg-6 d-flex justify-content-center my-1">
                                                                     STAND: {user.stand ? user.stand.position : 'to be selected'}
                                                                     </Col>
                                                                 </Row>
@@ -306,6 +307,7 @@ function Profile(){
                                                 </Link>
                                             )
                                         }
+                                        <Button variant="danger" onClick={handleLogout}>Logout</Button>
                                     </Col>
                                 </Row>   
                     </Card.Text>

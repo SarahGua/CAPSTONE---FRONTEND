@@ -163,65 +163,15 @@ function ExhibitorProfile(){
     return(
         <Container>
         <NavBarComp/>
-        {/* <Row className="d-flex justify-content-center">
-            <Col className="col-md-10 col-sm-8 col-xs-6">
-                <Card className="bg-darkBlue border border-0">
-                    <Card.Body>
-                        <div className="d-flex align-items-center justify-content-center mb-5">
-                            <img src={companyDetails.img_url} className='rounded w-25 me-3' alt='profile-img'/>
-                            <Card.Title>{companyDetails.company_name}</Card.Title>
-                        </div>
-                        <Card.Text className="d-flex justfy-content-around align-items-center">
-                            <Card border="info">
-                                <Card.Body >
-                                    <Card.Title>Information</Card.Title>
-                                    <Container>
-                                    <Row>
-                                        <Col className="d-flex flex-colummn align-items-center">
-                                            <Card.Text className="m-0">
-                                                NAME: {companyDetails.company_name}
-                                            </Card.Text>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col className="d-flex flex-colummn align-items-center">
-                                            <Card.Text className="m-0">
-                                                EMAIL: {companyDetails.company_email}
-                                            </Card.Text>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col className="d-flex flex-colummn align-items-center">
-                                            <Card.Text className="m-0">
-                                                ADDRESS: {companyDetails.address}
-                                            </Card.Text>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col className="d-flex flex-colummn align-items-center">
-                                            <Card.Text className="m-0">
-                                                PHONE NUMBER: {companyDetails.company_phone_number}
-                                            </Card.Text>
-                                        </Col>
-                                    </Row>
-                                    </Container>
-                                </Card.Body>
-                            </Card>
-                            <Button variant="info" className="vh-25" onClick={handleShow}>Book an appointment!</Button>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </Col>
-        </Row> */}
 
         <Row className="text-similWhite d-flex align-items-center mt-5">
-            <Col className="col-4 d-flex align-items-center">
+            <Col className="col-12 col-lg-4 d-flex align-items-center">
                 <img src={companyDetails.img_url} className='rounded w-100 me-3' alt='profile-img'/>
             </Col>
             <Col>
                 <Row>
                     <Col className="col-12 d-flex justify-content-center my-5">
-                        <h1>{companyDetails.company_name}</h1>
+                        <h1 className="text-center">{companyDetails.company_name}</h1>
                     </Col>
                     <Col>
                     <Card.Body className="mt-5">
@@ -243,7 +193,7 @@ function ExhibitorProfile(){
                                 </Row>
                                 <Row className="mb-1">
                                     <Col className="d-flex flex-colummn align-items-center">
-                                        <Card.Text className="m-0">
+                                        <Card.Text className="m-0 text-center">
                                             ADDRESS: {companyDetails.address}
                                         </Card.Text>
                                     </Col>
@@ -257,18 +207,22 @@ function ExhibitorProfile(){
                                 </Row>
                                 <Row className="mt-5">
                                 <Col className="d-flex justify-content-center mb-3">
-                                    <h2>{companyDetails.stand ? `You can find us at our booth number ${companyDetails.stand.position}`  : 'booth to be defined'}</h2>
+                                    <h2 className="text-center">{companyDetails.stand ? `You can find us at our booth number ${companyDetails.stand.position}`  : 'booth to be defined'}</h2>
                                 </Col>
                                 </Row>
                             </Container>
                         </Card.Body>
                     </Col>
                 </Row>
-                <Row className="mb-5">
-                    <Col className="d-flex justify-content-center">
-                        <Button variant="info" className="vh-25 border border-lightn bg-transparent border-3 text-white" onClick={handleShow}>Book an appointment!</Button>
-                    </Col>
-                </Row>
+                {
+                    user.role === 'CLIENT' ? (
+                        <Row className="mb-5">
+                            <Col className="d-flex justify-content-center">
+                                <Button variant="info" className="vh-25 border border-lightn bg-transparent border-3 text-white" onClick={handleShow}>Book an appointment!</Button>
+                            </Col>
+                        </Row>
+                    ) : ''
+                }
             </Col>
         </Row>
 

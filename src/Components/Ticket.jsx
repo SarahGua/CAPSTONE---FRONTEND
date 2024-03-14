@@ -127,7 +127,7 @@ function Ticket(){
                 height: `20em`
             }}>
                 <Col className="d-flex justify-content-center align-items-center">
-                    <h1 className="text-white">BOOK YOUR TICKETS HERE</h1>
+                    <h1 className="text-white text-center">BOOK YOUR TICKETS HERE</h1>
                 </Col>
             </Row>
             <Row className="my-3 d-flex align-items-center">

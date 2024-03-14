@@ -93,21 +93,31 @@ function StandBooking(){
         })
         .then((res) => {
             if(res.ok){
-                setBookingSuccess(true)
-                handleClose(); 
+                setTimeout(() => {
+                    setBookingSuccess(true);
+                }, 1000); // Delay di 1 secondo per garantire che la pagina si aggiorni prima
+                window.location.reload();
+                handleClose()
             } else {
                 throw new Error('Errore nella prenotazione dello stand');
             }
         })
         .catch((err) => {
             console.log('Errore', err);
-        });
+        })
     }
 
     useEffect(() => {
         getStands()
         getUserProfile()
     }, [])
+
+    useEffect(() => {
+        if (bookingSuccess) {
+            // Imposta l'alert di conferma qui dopo che la pagina è stata aggiornata
+            setAlertShow(true);
+        }
+    }, [bookingSuccess])
 
     return (
         <Container>

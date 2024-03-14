@@ -42,12 +42,8 @@ function WelcomeComp(){
         <Container>
         <NavBarComp />
             <Container className="vh-25">
-                <Row>
-                    <Col className="d-flex justify-content-center">
-                    </Col>
-                </Row>
                 <Row className="d-flex align-items-center my-5">
-                    <Col className="fade-in-left">
+                    <Col className="fade-in-left col-12 col-lg-6">
                         <img src={img1} className="fluid w-100" alt="img1"></img>
                     </Col>
                     <Col className="text-white p-6 font-monospace fade-in-right">
@@ -61,13 +57,13 @@ function WelcomeComp(){
                 <Row className="mt-6">
                     <Col className="d-flex justify-content-center">
                         {
-                            user.role === 'EXHIBITOR' ? (
+                            user && user.role === 'EXHIBITOR' ? (
                                 <Link to={`/standBooking`} className=" text-decoration-none">
-                                <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3 fade-in">Book your booth NOW!</Button>
+                                <Button variant="primary" className="border border-lightn bg-transparent border-3 my-3 fade-in">Book your booth NOW!</Button>
                                 </Link>
                             ) : (
                                 <Link to={`/ticket`} className=" text-decoration-none">
-                                <Button variant="primary" className="border border-lightn bg-transparent border-3 mt-3 fade-in">Book your tickets NOW!</Button>
+                                <Button variant="primary" className="border border-lightn bg-transparent border-3 my-3 fade-in">Book your tickets NOW!</Button>
                                 </Link>
                             )
                         }

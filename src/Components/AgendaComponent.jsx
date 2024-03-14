@@ -139,12 +139,16 @@ function AgendaComp(){
                             <Col className="col-12 my-3" key={app.id}>             
                             <Card className="d-flex flex-row bg-darkBlue text-white">
                                 <Card.Img variant="top" src={app.exhibitor.img_url} className="h-15" />
-                                <Card.Body className="d-flex justify-content-between">
-                                    <Container className="d-flex justify-content-start align-items-center">
-        
+                                <Card.Body className="d-flex flex-column flex-lg-row"
+                                // className="d-flex justify-content-between"
+                                >
+                                    <Container className="d-flex justify-content-center align-items-center justify-content-lg-start">  
                                     <Card.Title className="m-0">{app.exhibitor.company_name}</Card.Title>
                                     </Container>
-                                    <Container className="d-flex justify-content-end align-items-center">
+                                    <Container 
+                                    // className="d-flex justify-content-end align-items-center"
+                                    className="d-flex justify-content-center align-items-lg-center mt-1"
+                                    >
                                         <Card.Text className="m-0 me-3">
                                             {app.date}
                                         </Card.Text>
@@ -178,15 +182,15 @@ function AgendaComp(){
                         appointments
                         .filter(app => app.exhibitor.id === user.id)
                         .map((app) => (
-                            <Col className="col-12" key={app.id}>             
-                            <Card className="d-flex flex-row bg-darkBlue text-white">
+                            <Col className="col-12 my-3" key={app.id}>             
+                            <Card className="d-flex flex-row bg-darkBlue text-white mb-3">
                                 <Card.Img variant="top" src={app.client.img_url} className="h-15" />
-                                <Card.Body className="d-flex justify-content-between">
-                                    <Container className="d-flex justify-content-start align-items-center">
+                                <Card.Body className="d-flex flex-column flex-lg-row">
+                                    <Container className="d-flex justify-content-center align-items-center justify-content-lg-start">
         
                                     <Card.Title className="m-0">{`${app.client.name}, ${app.client.surname}`}</Card.Title>
                                     </Container>
-                                    <Container className="d-flex justify-content-end align-items-center">
+                                    <Container className="d-flex justify-content-center align-items-lg-center mt-1">
                                         <Card.Text className="m-0 me-3">
                                             {app.date}
                                         </Card.Text>

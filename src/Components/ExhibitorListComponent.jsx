@@ -84,7 +84,7 @@ function ExhibitorListComp(){
         <Container>
             <NavBarComp />
             <Row>
-                <Col className="d-flex justify-content-center">
+                <Col className="d-flex justify-content-center text-center">
                     <h1 className="text-white">Exhibitors List</h1>
                 </Col>
             </Row>
@@ -114,7 +114,7 @@ function ExhibitorListComp(){
             <Row className="mt-5">
                 {
                     searchValue && users
-                    .filter(user => user.role === "EXHIBITOR" && user.company_name.toLowerCase().includes(searchValue.toLowerCase()))
+                    .filter(user => user.role === "EXHIBITOR" && user.company_name && user.company_name.toLowerCase().includes(searchValue.toLowerCase()))
                     .map(user => (
                         <Col className="col-12 my-3" key={user.id}>             
                             <Card className="d-flex flex-row bg-darkBlue text-white">

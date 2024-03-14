@@ -1,22 +1,23 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
 
 function NavBarComp(){
     return (
-        <Container className='my-5' 
-        // style={{position: "sticky", top: "20px", zIndex: "100"}}
-        >
-            <Navbar bg="dark" data-bs-theme="dark" className='bg-darkBlue'>
-                    <Nav className="d-flex justify-content-evenly w-100">
-                                <Link href="#home" className='text-light text-decoration-none' to="/welcome">Home</Link>
-                                <Link href="#exhibitorList" className='text-light text-decoration-none' to="/list">Exhibitor List</Link>
-                                <Link href="#agenda" className='text-light text-decoration-none' to="/agenda">Agenda</Link>
-                                <Link href="#myprofilet" className='text-light text-decoration-none' to="/myprofile">Profile</Link>
+        <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary bg-darkBlue mb-5 mt-2" bg="dark" data-bs-theme="dark">
+            <Container>
+            <Navbar.Brand href="#home">EventConnect</Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="me-auto">
+                    <Nav.Link href="/welcome">Home</Nav.Link>
+                    <Nav.Link href="/list">Exhibitor List</Nav.Link>
+                    <Nav.Link href="/agenda">Agenda</Nav.Link>
+                    <Nav.Link href="/myprofile">Profile</Nav.Link>
                     </Nav>
-            </Navbar>
-        </Container>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     )
 }
 
